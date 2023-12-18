@@ -35,10 +35,7 @@ int main(int argc, char **argv) {
 
   // Distribuer les cartes aux joueurs
   for (unsigned int i = 0; i < (unsigned int)nombre_joueurs; i++) {
-    for (unsigned int j = 0; j < CARTES_PAR_JOUEUR; j++) {
-      ajouter_carte(&joueurs[i].main, sommet(paquet));
-      depiler(paquet);
-    }
+      distribuer(paquet, joueurs[i]);
   }
 
   for (unsigned int i = 0; i < (unsigned int)nombre_joueurs; i++) {

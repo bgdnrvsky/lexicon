@@ -1,6 +1,7 @@
 #ifndef _PAQUET_H_
 #define _PAQUET_H_
 
+#include "Joueur.h"
 #include "libs/Pile.h"
 #define CARTES_PAR_PAQUET 51
 
@@ -14,5 +15,6 @@ const int TOUTES_CARTES[][2] = {
 typedef Pile Paquet;
 
 void remplir(Paquet& paquet);
+void distribuer(Paquet& paquet, Joueur& joueur);
 
 #endif

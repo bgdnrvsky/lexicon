@@ -1,4 +1,5 @@
 #include "Paquet.h"
+#include "Main.h"
 #include <cassert>
 
 void remplir(Paquet &paquet) {
@@ -16,4 +17,11 @@ void remplir(Paquet &paquet) {
   }
 
   assert(nombre_total == CARTES_PAR_PAQUET);
+}
+
+void distribuer(Paquet &paquet, Joueur &joueur) {
+    for (unsigned int i = 0; i < CARTES_PAR_JOUEUR; i++) {
+        ajouter_carte(&joueur.main, sommet(paquet));
+        depiler(paquet);
+    }
 }
