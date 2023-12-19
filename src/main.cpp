@@ -1,6 +1,8 @@
 #include "Main.h"
+#include "Commandes.h"
 #include "Joueur.h"
 #include "Paquet.h"
+#include "libs/Chaine.h"
 #include "libs/Pile.h"
 #include "libs/Vec.h"
 #include <iostream>
@@ -22,9 +24,14 @@ int main(int argc, char **argv) {
 
   Joueur joueurs[MAX_NOMBRE_JOUEURS];
 
-  for (unsigned int i = 0; i < (unsigned int)nombre_joueurs; i++)
-    joueurs[i] = (Joueur){
-        .id = i + 1, .score = 0, .main = (Main){.cartes = {}, .restantes = 0}};
+  for (unsigned int i = 0; i < (unsigned int)nombre_joueurs; i++) {
+    Joueur &joueur = joueurs[i];
+    initialiser(joueur.main.cartes);
+
+    joueur.main.restantes = 0;
+    joueur.id = i + 1;
+    joueur.score = 0;
+  }
 
   Paquet paquet;
 
@@ -34,24 +41,66 @@ int main(int argc, char **argv) {
   melanger(paquet.tab, CARTES_PAR_PAQUET);
 
   // Distribuer les cartes aux joueurs
-  for (unsigned int i = 0; i < (unsigned int)nombre_joueurs; i++) {
-      distribuer(paquet, joueurs[i]);
-  }
+  for (unsigned int i = 0; i < (unsigned int)nombre_joueurs; i++)
+    distribuer(paquet, joueurs[i]);
 
-  for (unsigned int i = 0; i < (unsigned int)nombre_joueurs; i++) {
-    Joueur joueur = joueurs[i];
-    std::cout << "Joueur " << joueur.id << " : " << joueur.score << " points"
-              << " : " << joueur.main.restantes << " cartes restantes"
-              << std::endl;
+  Paquet exposees; // Les cartes exposées
+  initialiser(exposees, CARTES_PAR_PAQUET);
 
-    std::cout << "Cartes : " << std::endl;
-    for (unsigned int j = 0; j < joueur.main.restantes; j++) {
-      std::cout << "\t"
-                << "'" << joueur.main.cartes[j].lettre << "'"
-                << " qui vaut " << joueur.main.cartes[j].valeur << std::endl;
+  // Exposer la première carte du paquet
+  empiler(exposees, sommet(paquet));
+  depiler(paquet);
+
+  std::cout << "(Commandes valides : TEPRC)" << std::endl << std::endl;
+
+  // Commencer le jeu
+  unsigned int joueur_id = 0;
+  while (nombre_joueurs >= 2) {
+    Joueur *joueur = &joueurs[joueur_id];
+
+    std::printf("* Joueur %d (%c) ", joueur_id + 1, sommet(exposees).lettre);
+
+    for (debut(joueur->main.cartes); !estFin(joueur->main.cartes);
+         suivant(joueur->main.cartes)) {
+      std::printf("%c", lire(joueur->main.cartes).lettre);
     }
+    std::cout << std::endl;
+
+    std::cout << "> ";
+
+    char commande;
+    std::cin >> commande;
+
+    switch (commande) {
+    case 'T':
+      // Talon
+      piocher(paquet, *joueur, exposees);
+      break;
+    case 'E':
+      // Exposées
+      piocher(exposees, *joueur, exposees);
+      break;
+    case 'P':
+      // Poser
+      break;
+    case 'R':
+      // Remplacer
+      break;
+    case 'C':
+      // Completer
+      break;
+    default:
+      // TODO: Recommencer la saisie au cas où la commande est invalide
+      std::cout << "Commande invalide" << std::endl;
+    }
+
+    joueur_id = (joueur_id + 1) % nombre_joueurs;
   }
 
   detruire(paquet);
+  detruire(exposees);
+  for (unsigned int i = 0; (int)i < nombre_joueurs; i++)
+    detruire(joueurs[i].main.cartes);
+
   return 0;
 }

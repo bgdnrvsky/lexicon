@@ -70,7 +70,7 @@ Item sommet(const Pile &p) {
  * @param[in] it : l'item à empiler
  * @pre la pile n’est pas pleine
  */
-void empiler(Pile &p, const Item &it) {
+void empiler(Pile &p, Item it) {
   if (p.sommet + 1 >= (int)p.capacite) {
     unsigned int newTaille = (p.sommet + 1) * p.pasExtension;
     Item *newT = new Item[newTaille];

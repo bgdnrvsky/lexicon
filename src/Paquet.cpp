@@ -21,7 +21,7 @@ void remplir(Paquet &paquet) {
 
 void distribuer(Paquet &paquet, Joueur &joueur) {
     for (unsigned int i = 0; i < CARTES_PAR_JOUEUR; i++) {
-        ajouter_carte(&joueur.main, sommet(paquet));
+        ajouter_carte(joueur.main, sommet(paquet));
         depiler(paquet);
     }
 }
