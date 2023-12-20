@@ -53,8 +53,12 @@ int main(int argc, char **argv) {
 
   std::cout << "(Commandes valides : TEPRC)" << std::endl << std::endl;
 
+  Chaine mots;
+  initialiser(mots);
+
   // Commencer le jeu
   unsigned int joueur_id = 0;
+  bool a_quitter = false;
   while (nombre_joueurs >= 2) {
     Joueur *joueur = &joueurs[joueur_id];
 
@@ -82,6 +86,7 @@ int main(int argc, char **argv) {
       break;
     case 'P':
       // Poser
+      poser(*joueur, mots);
       break;
     case 'R':
       // Remplacer
@@ -89,14 +94,21 @@ int main(int argc, char **argv) {
     case 'C':
       // Completer
       break;
+    case 'Q':
+      a_quitter = true;
+      break;
     default:
       // TODO: Recommencer la saisie au cas où la commande est invalide
       std::cout << "Commande invalide" << std::endl;
     }
 
+    if (a_quitter)
+      break;
+
     joueur_id = (joueur_id + 1) % nombre_joueurs;
   }
 
+  detruire(mots);
   detruire(paquet);
   detruire(exposees);
   for (unsigned int i = 0; (int)i < nombre_joueurs; i++)

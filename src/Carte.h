@@ -6,4 +6,9 @@ typedef struct {
   unsigned int valeur;
 } Carte;
 
+const Carte SPACER = (Carte){
+    .lettre = '\0',
+    .valeur = 0,
+};
+
 #endif
