@@ -7,7 +7,7 @@
 #include <cstring>
 #include <iostream>
 
-bool peut_etre_construit(Main &main_de_joueur, const char mot[], Chaine &mots) {
+bool poser_le_mot(Main &main_de_joueur, const char mot[], Chaine &mots) {
   if (main_de_joueur.restantes < strlen(mot))
     return false;
 
@@ -85,7 +85,7 @@ void poser(Joueur &joueur, Chaine &mots) {
 
   // TODO: Vérifier que le mot est dans le dictionnaire
 
-  if (!peut_etre_construit(joueur.main, mot, mots)) {
+  if (!poser_le_mot(joueur.main, mot, mots)) {
     std::cout
         << "Le mot peut pas etre construit a partir de cartes que vous avez"
         << std::endl;
