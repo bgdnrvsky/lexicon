@@ -1,13 +1,14 @@
 #include "Commandes.h"
 #include "Carte.h"
 #include "Hand.h"
+#include "Mots.h"
 #include "Paquet.h"
 #include "libs/Chaine.h"
 #include "libs/Pile.h"
 #include <cstring>
 #include <iostream>
 
-bool poser_le_mot(Main &main_de_joueur, const char mot[], Chaine &mots) {
+bool poser_le_mot(Main &main_de_joueur, const char mot[], Mots &mots) {
   if (main_de_joueur.restantes < strlen(mot))
     return false;
 
@@ -22,7 +23,7 @@ bool poser_le_mot(Main &main_de_joueur, const char mot[], Chaine &mots) {
   for (unsigned int i = 0; i < strlen(mot); i++)
     counter_mot[mot[i] - 'A']++;
 
-  Chaine nouveau_mot;
+  Mot nouveau_mot;
   initialiser(nouveau_mot);
 
   Main nouvelle_main;
@@ -61,25 +62,17 @@ bool poser_le_mot(Main &main_de_joueur, const char mot[], Chaine &mots) {
     }
   }
 
-  fin(mots);
-  for (debut(nouveau_mot); !estFin(nouveau_mot); suivant(nouveau_mot)) {
-    inserer(mots, lire(nouveau_mot));
-    suivant(mots);
-  }
-
-  inserer(mots, SPACER);
-  suivant(mots);
+  ajouter_mot(mots, nouveau_mot);
 
   detruire(nouveau_mot);
 
   detruire(main_de_joueur.cartes);
-
   main_de_joueur = nouvelle_main;
 
   return true;
 }
 
-void poser(Joueur &joueur, Chaine &mots) {
+void poser(Joueur &joueur, Mots &mots) {
   char *mot = new char[NOMBRE_LETTRES];
   std::scanf("%s", mot);
 

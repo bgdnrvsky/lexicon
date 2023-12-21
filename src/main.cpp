@@ -1,6 +1,7 @@
-#include "Hand.h"
 #include "Commandes.h"
+#include "Hand.h"
 #include "Joueur.h"
+#include "Mots.h"
 #include "Paquet.h"
 #include "libs/Chaine.h"
 #include "libs/Pile.h"
@@ -53,7 +54,7 @@ int main(int argc, char **argv) {
 
   std::cout << "(Commandes valides : TEPRC)" << std::endl << std::endl;
 
-  Chaine mots;
+  Mots mots;
   initialiser(mots);
 
   // Commencer le jeu
@@ -111,6 +112,7 @@ int main(int argc, char **argv) {
   detruire(mots);
   detruire(paquet);
   detruire(exposees);
+
   for (unsigned int i = 0; (int)i < nombre_joueurs; i++)
     detruire(joueurs[i].main.cartes);
 
