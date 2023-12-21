@@ -2,6 +2,7 @@
 #include "Carte.h"
 #include "Hand.h"
 #include "Mots.h"
+#include "Occurrence.h"
 #include "Paquet.h"
 #include "libs/Chaine.h"
 #include "libs/Pile.h"
@@ -12,16 +13,13 @@ bool poser_le_mot(Main &main_de_joueur, const char mot[], Mots &mots) {
   if (main_de_joueur.restantes < strlen(mot))
     return false;
 
-  unsigned short counter_joueur[NOMBRE_LETTRES] = {0};
+  Occurrences counter_joueur;
+  initialiser(counter_joueur);
+  compter(counter_joueur, main_de_joueur);
 
-  for (debut(main_de_joueur.cartes); !estFin(main_de_joueur.cartes);
-       suivant(main_de_joueur.cartes))
-    counter_joueur[lire(main_de_joueur.cartes).lettre - 'A']++;
-
-  unsigned short counter_mot[NOMBRE_LETTRES] = {0};
-
-  for (unsigned int i = 0; i < strlen(mot); i++)
-    counter_mot[mot[i] - 'A']++;
+  Occurrences counter_mot;
+  initialiser(counter_mot);
+  compter(counter_mot, *mot);
 
   Mot nouveau_mot;
   initialiser(nouveau_mot);
@@ -34,8 +32,9 @@ bool poser_le_mot(Main &main_de_joueur, const char mot[], Mots &mots) {
        suivant(main_de_joueur.cartes)) {
     Carte carte = lire(main_de_joueur.cartes);
 
-    unsigned short &carte_chez_joueur = counter_joueur[carte.lettre - 'A'];
-    unsigned short &carte_dans_mot = counter_mot[carte.lettre - 'A'];
+    unsigned carte_chez_joueur =
+        nombre_occurrences(counter_joueur, carte.lettre);
+    unsigned carte_dans_mot = nombre_occurrences(counter_mot, carte.lettre);
 
     if (carte_chez_joueur < carte_dans_mot) {
       detruire(nouveau_mot);
@@ -46,8 +45,8 @@ bool poser_le_mot(Main &main_de_joueur, const char mot[], Mots &mots) {
     if (carte_dans_mot > 0) {
       inserer(nouveau_mot, carte);
 
-      counter_joueur[carte.lettre - 'A']--;
-      counter_mot[carte.lettre - 'A']--;
+      retirer_occurrence(counter_joueur, carte.lettre);
+      retirer_occurrence(counter_mot, carte.lettre);
     } else {
       // Cette lettre n'est pas dans le mot
       ajouter_carte(nouvelle_main, carte);
@@ -55,7 +54,7 @@ bool poser_le_mot(Main &main_de_joueur, const char mot[], Mots &mots) {
   }
 
   for (unsigned int i = 0; i < strlen(mot); i++) {
-    if (counter_mot[mot[i] - 'A'] > 0) {
+    if (nombre_occurrences(counter_mot, mot[i]) > 0) {
       detruire(nouveau_mot);
       detruire(nouvelle_main.cartes);
       return false;
