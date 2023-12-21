@@ -1,7 +1,7 @@
 #ifndef _JOUEUR_H_
 #define _JOUEUR_H_
 
-#include "Main.h"
+#include "Hand.h"
 
 typedef struct {
   unsigned int id;

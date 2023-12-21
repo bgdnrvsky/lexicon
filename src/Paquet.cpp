@@ -1,5 +1,5 @@
 #include "Paquet.h"
-#include "Main.h"
+#include "Hand.h"
 #include <cassert>
 
 void remplir(Paquet &paquet) {

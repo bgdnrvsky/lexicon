@@ -1,4 +1,4 @@
-#include "Main.h"
+#include "Hand.h"
 #include "Commandes.h"
 #include "Joueur.h"
 #include "Paquet.h"

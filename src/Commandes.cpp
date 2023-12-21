@@ -1,6 +1,6 @@
 #include "Commandes.h"
 #include "Carte.h"
-#include "Main.h"
+#include "Hand.h"
 #include "Paquet.h"
 #include "libs/Chaine.h"
 #include "libs/Pile.h"
