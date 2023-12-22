@@ -71,6 +71,23 @@ int main(int argc, char **argv) {
     }
     std::cout << std::endl;
 
+    // Lister tous les mots
+    unsigned int i = 1;
+    for (debut(mots); !estFin(mots); suivant_mot(mots)) {
+        Mot mot;
+        lire_mot(mots, mot);
+
+        std::cout << i << " - ";
+
+        // Afficher le mot
+        for (;lire(mot).lettre != SPACER.lettre; suivant(mot))
+          std::cout << lire(mot).lettre;
+
+        std::cout << std::endl;
+
+        i++;
+    }
+
     std::cout << "> ";
 
     char commande;

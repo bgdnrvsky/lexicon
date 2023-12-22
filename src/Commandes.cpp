@@ -6,6 +6,7 @@
 #include "Paquet.h"
 #include "libs/Chaine.h"
 #include "libs/Pile.h"
+#include <cassert>
 #include <cstring>
 #include <iostream>
 
@@ -24,49 +25,34 @@ bool poser_le_mot(Main &main_de_joueur, const char mot[], Mots &mots) {
   Mot nouveau_mot;
   initialiser(nouveau_mot);
 
-  Main nouvelle_main;
-  nouvelle_main.restantes = 0;
-  initialiser(nouvelle_main.cartes);
-
-  for (debut(main_de_joueur.cartes); !estFin(main_de_joueur.cartes);
-       suivant(main_de_joueur.cartes)) {
-    Carte carte = lire(main_de_joueur.cartes);
-
-    unsigned carte_chez_joueur =
-        nombre_occurrences(counter_joueur, carte.lettre);
-    unsigned carte_dans_mot = nombre_occurrences(counter_mot, carte.lettre);
-
-    if (carte_chez_joueur < carte_dans_mot) {
-      detruire(nouveau_mot);
-      detruire(nouvelle_main.cartes);
-      return false;
-    }
-
-    if (carte_dans_mot > 0) {
-      inserer(nouveau_mot, carte);
-
-      retirer_occurrence(counter_joueur, carte.lettre);
-      retirer_occurrence(counter_mot, carte.lettre);
-    } else {
-      // Cette lettre n'est pas dans le mot
-      ajouter_carte(nouvelle_main, carte);
-    }
-  }
-
   for (unsigned int i = 0; i < strlen(mot); i++) {
-    if (nombre_occurrences(counter_mot, mot[i]) > 0) {
+    char lettre = mot[i];
+    unsigned occurrences_dans_mot = nombre_occurrences(counter_mot, lettre);
+    unsigned occurrences_chez_joueur =
+        nombre_occurrences(counter_joueur, lettre);
+
+    if (occurrences_dans_mot > occurrences_chez_joueur) {
+      // Le nombre de cartes qui contient la lettre n'est pas suffisant
       detruire(nouveau_mot);
-      detruire(nouvelle_main.cartes);
       return false;
     }
+
+    Carte carte;
+    // On sait deja que la carte est presente dans la main de joueur
+    assert(retrouver_carte_par_lettre(main_de_joueur, lettre, carte));
+
+    inserer(nouveau_mot, carte);
+    suivant(nouveau_mot);
+
+    retirer_carte(main_de_joueur);
+
+    retirer_occurrence(counter_joueur, carte.lettre);
+    retirer_occurrence(counter_mot, carte.lettre);
   }
 
   ajouter_mot(mots, nouveau_mot);
 
   detruire(nouveau_mot);
-
-  detruire(main_de_joueur.cartes);
-  main_de_joueur = nouvelle_main;
 
   return true;
 }
@@ -77,6 +63,7 @@ void poser(Joueur &joueur, Mots &mots) {
 
   // TODO: Vérifier que le mot est dans le dictionnaire
 
+  // TODO: Extraire la fonction poser_le_mot a la fonction poser
   if (!poser_le_mot(joueur.main, mot, mots)) {
     std::cout
         << "Le mot peut pas etre construit a partir de cartes que vous avez"

@@ -12,5 +12,7 @@ typedef struct {
 
 void ajouter_carte(Main &main, Carte carte);
 void retirer_carte(Main &main);
+bool retrouver_carte(Main &main, Carte carte);
+bool retrouver_carte_par_lettre(Main &main, char lettre, Carte &carte);
 
 #endif
