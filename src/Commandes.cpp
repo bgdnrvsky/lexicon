@@ -119,6 +119,12 @@ void remplacer(Joueur &joueur, Mots &mots) {
   char *nouveau_mot = new char[NOMBRE_LETTRES];
   std::scanf("%s", nouveau_mot);
 
+  if (mot_pos > nombre_mots(mots)) {
+    std::cout << "Le mot n'existe pas" << std::endl;
+    delete[] nouveau_mot;
+    return;
+  }
+
   for (debut(mots); mot_pos > 1; suivant_mot(mots))
     mot_pos--;
 

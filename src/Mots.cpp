@@ -26,7 +26,8 @@ void lire_mot(Mots &mots, Mot &mot) {
 
 unsigned int taille_mot(Mot &mot) {
   unsigned int taille;
-  for (taille = 0; !estFin(mot) && lire(mot).lettre != SPACER.lettre; suivant(mot))
+  for (taille = 0; !estFin(mot) && lire(mot).lettre != SPACER.lettre;
+       suivant(mot))
     taille++;
 
   debut(mot);
@@ -34,7 +35,16 @@ unsigned int taille_mot(Mot &mot) {
   return taille;
 }
 
+unsigned nombre_mots(Mots &mots) {
+  unsigned int nombre_mots = 0;
+  for (debut(mots); !estFin(mots); suivant_mot(mots))
+    nombre_mots++;
+
+  debut(mots);
+  return nombre_mots;
+}
+
 void afficher(Mot &mot) {
-    for (debut(mot); !estFin(mot) && lire(mot).lettre != '\0'; suivant(mot))
-        std::cout << lire(mot).lettre;
+  for (debut(mot); !estFin(mot) && lire(mot).lettre != '\0'; suivant(mot))
+    std::cout << lire(mot).lettre;
 }
