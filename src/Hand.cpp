@@ -2,6 +2,16 @@
 #include "Paquet.h"
 #include "libs/Chaine.h"
 
+void initialiser(Main &main) {
+    initialiser(main.cartes);
+    main.restantes = 0;
+}
+
+void detruire(Main &main) {
+    detruire(main.cartes);
+    main.restantes = 0;
+}
+
 void ajouter_carte(Main &main, Carte carte) {
   inserer(main.cartes, carte);
   suivant(main.cartes);

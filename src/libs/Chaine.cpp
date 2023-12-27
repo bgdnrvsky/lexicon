@@ -21,7 +21,6 @@ using namespace std;
  */
 void initialiser(Chaine &c) {
   c.tete = NULL;
-  c.longueur = 0;
   c.courant = &c.tete;
 }
 
@@ -50,7 +49,6 @@ bool estVide(const Chaine &c) { return c.tete == NULL; }
  * @param[in] elem : l'élément inséré
  */
 void inserer(Chaine &c, Item elem) {
-  c.longueur++;
   Maillon *m = new Maillon;
   m->elem = elem;
   m->suiv = *(c.courant);
@@ -64,7 +62,6 @@ void inserer(Chaine &c, Item elem) {
  */
 void supprimer(Chaine &c) {
   assert(!estFin(c));
-  c.longueur--;
   Maillon *supprime = *(c.courant);
   *(c.courant) = supprime->suiv;
   delete supprime;

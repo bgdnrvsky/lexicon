@@ -2,7 +2,6 @@
 #define _OCCURRENCE_H_
 
 #include "Paquet.h"
-
 typedef unsigned Occurrences[NOMBRE_LETTRES];
 
 void initialiser(Occurrences &occurrences);

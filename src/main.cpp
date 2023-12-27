@@ -1,10 +1,7 @@
 #include "Commandes.h"
-#include "Hand.h"
 #include "Joueur.h"
 #include "Mots.h"
 #include "Paquet.h"
-#include "libs/Chaine.h"
-#include "libs/Pile.h"
 #include "libs/Vec.h"
 #include <iostream>
 
@@ -27,10 +24,7 @@ int main(int argc, char **argv) {
 
   for (unsigned int i = 0; i < (unsigned int)nombre_joueurs; i++) {
     Joueur &joueur = joueurs[i];
-    initialiser(joueur.main.cartes);
-
-    joueur.main.restantes = 0;
-    joueur.id = i + 1;
+    initialiser(joueur.main);
     joueur.score = 0;
   }
 
@@ -74,18 +68,16 @@ int main(int argc, char **argv) {
     // Lister tous les mots
     unsigned int i = 1;
     for (debut(mots); !estFin(mots); suivant_mot(mots)) {
-        Mot mot;
-        lire_mot(mots, mot);
+      Mot mot;
+      lire_mot(mots, mot);
 
-        std::cout << i << " - ";
+      std::cout << i << " - ";
 
-        // Afficher le mot
-        for (;lire(mot).lettre != SPACER.lettre; suivant(mot))
-          std::cout << lire(mot).lettre;
+      afficher(mot);
 
-        std::cout << std::endl;
+      std::cout << std::endl;
 
-        i++;
+      i++;
     }
 
     std::cout << "> ";
@@ -107,6 +99,7 @@ int main(int argc, char **argv) {
       poser(*joueur, mots);
       break;
     case 'R':
+      remplacer(*joueur, mots);
       // Remplacer
       break;
     case 'C':

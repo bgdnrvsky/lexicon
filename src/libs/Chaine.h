@@ -26,7 +26,6 @@ struct Chaine {
   Maillon *tete;     // Pointeur sur le maillon de tête
   Maillon **courant; // Superpointeur (pointeur du pointeur)
                      // désignant le maillon courant
-  unsigned int longueur;  // Longueur de la chaîne
 };
 
 /**

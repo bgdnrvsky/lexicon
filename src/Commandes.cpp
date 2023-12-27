@@ -111,3 +111,61 @@ void piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees) {
   inserer(joueur.main.cartes, carte_prise);
   debut(joueur.main.cartes);
 }
+
+void remplacer(Joueur &joueur, Mots &mots) {
+  unsigned int mot_pos;
+  std::cin >> mot_pos;
+
+  char *nouveau_mot = new char[NOMBRE_LETTRES];
+  std::scanf("%s", nouveau_mot);
+
+  for (debut(mots); mot_pos > 1; suivant_mot(mots))
+    mot_pos--;
+
+  Mot mot;
+  lire_mot(mots, mot);
+  debut(mot);
+
+  if (strlen(nouveau_mot) != taille_mot(mot)) {
+    std::cout << "Le nouveau mot peut pas remplacer l'ancien car le nombre de "
+                 "lettres est different"
+              << std::endl;
+    delete[] nouveau_mot;
+    return;
+  }
+
+  Occurrences compter_joueur;
+  initialiser(compter_joueur);
+  compter(compter_joueur, joueur.main);
+
+  for (unsigned int i = 0; i < strlen(nouveau_mot); i++) {
+    Carte lettre_origin = lire(mot);
+    char nouvelle_lettre = nouveau_mot[i];
+
+    if (nouvelle_lettre != lettre_origin.lettre) {
+      // La lettre doit etre remplacee par une carte de la main de joueur
+      if (nombre_occurrences(compter_joueur, nouvelle_lettre) == 0) {
+        // On peut pas remplacer la lettre
+        std::cout << "Le nouveau mot peut pas etre construit a partir de "
+                     "cartes possedees par joueur"
+                  << std::endl;
+        delete[] nouveau_mot;
+        return;
+      }
+
+      Carte nouvelle_carte;
+      assert(retrouver_carte_par_lettre(
+          joueur.main, nouvelle_lettre,
+          nouvelle_carte)); // On sait que la carte est presente
+
+      retirer_carte(joueur.main);
+      retirer_occurrence(compter_joueur, nouvelle_lettre);
+
+      ecrire(mot, nouvelle_carte);
+    }
+
+    suivant(mot);
+  }
+
+  delete[] nouveau_mot;
+}
