@@ -20,7 +20,7 @@ bool poser_le_mot(Main &main_de_joueur, const char mot[], Mots &mots) {
 
   Occurrences counter_mot;
   initialiser(counter_mot);
-  compter(counter_mot, *mot);
+  compter(counter_mot, mot);
 
   Mot nouveau_mot;
   initialiser(nouveau_mot);
@@ -171,6 +171,118 @@ void remplacer(Joueur &joueur, Mots &mots) {
     }
 
     suivant(mot);
+  }
+
+  delete[] nouveau_mot;
+}
+
+void completer(Joueur &joueur, Mots &mots) {
+  unsigned int mot_pos;
+  std::cin >> mot_pos;
+
+  char *nouveau_mot = new char[NOMBRE_LETTRES];
+  std::scanf("%s", nouveau_mot);
+
+  if (mot_pos > nombre_mots(mots)) {
+    std::cout << "Le mot n'existe pas" << std::endl;
+    delete[] nouveau_mot;
+    return;
+  }
+
+  for (debut(mots); mot_pos > 1; suivant_mot(mots))
+    mot_pos--;
+
+  Mot mot;
+  lire_mot(mots, mot);
+  debut(mot);
+
+  if (strlen(nouveau_mot) <= taille_mot(mot)) {
+    std::cout << "Le nouveau mot doit avoir plus de lettres que l'ancien"
+              << std::endl;
+    delete[] nouveau_mot;
+    return;
+  }
+
+  // Verifier que le nouveau mot preserve l'ordre des lettres de l'ancien
+  unsigned int bordure_gauche =
+      0; // La position a partir de laquelle on va chercher
+  for (debut(mot); lire(mot).lettre != '\0'; suivant(mot)) {
+    Carte carte = lire(mot);
+    bool carte_trouvee = false;
+
+    for (unsigned int i = bordure_gauche; i < strlen(nouveau_mot); i++) {
+      if (nouveau_mot[i] == carte.lettre) {
+        // On a trouve la lettre
+        bordure_gauche = i + 1;
+        carte_trouvee = true;
+        break;
+      }
+    }
+
+    if (!carte_trouvee) {
+      std::cout << "Le nouveau mot doit preserver l'ordre des lettres de "
+                   "l'ancien"
+                << std::endl;
+      delete[] nouveau_mot;
+      return;
+    }
+  }
+
+  // Verifier que le nouveau mot peut etre construit a partir de la main de
+  // joueur et du mot deja present
+  Occurrences compteur_joueur;
+  initialiser(compteur_joueur);
+  compter(compteur_joueur, joueur.main);
+
+  Occurrences compteur_mot;
+  initialiser(compteur_mot);
+  compter(compteur_mot, mot);
+
+  for (unsigned int i = 0; i < strlen(nouveau_mot); i++) {
+    char lettre = nouveau_mot[i];
+
+    if (nombre_occurrences(compteur_mot, lettre) > 0) {
+      retirer_occurrence(compteur_mot, lettre);
+      continue;
+    }
+
+    if (nombre_occurrences(compteur_joueur, lettre) > 0) {
+      retirer_occurrence(compteur_joueur, lettre);
+      continue;
+    }
+
+    // La lettre n'a pu etre contruite ni de la main de joueur ni de lettres du
+    // mot deja present
+    std::cout << "Le mot peut pas etre consturuit" << std::endl;
+    delete[] nouveau_mot;
+    return;
+  }
+
+  Main nouvelle_main;
+  initialiser(nouvelle_main);
+
+  for (char i = 'A'; i < NOMBRE_LETTRES + 'A'; i++) {
+    unsigned occurrences = nombre_occurrences(
+        compteur_joueur,
+        i); // Combien de fois cette lettre sera presente dans la nouvelle main
+
+    for (unsigned j = 0; j < occurrences; j++)
+      ajouter_carte(nouvelle_main, nouvelle_carte(i));
+  }
+
+  detruire(joueur.main);
+  joueur.main = nouvelle_main;
+
+  // Modifier le mot dans la liste de mots
+
+  // On supprime le mot original
+  while (lire(mots).lettre != '\0')
+    supprimer(mots);
+
+  // On insere le nouveau mot
+  for (unsigned int i = 0; i < strlen(nouveau_mot); i++) {
+    inserer(mots, nouvelle_carte(nouveau_mot[i]));
+    suivant(mots);
   }
 
   delete[] nouveau_mot;

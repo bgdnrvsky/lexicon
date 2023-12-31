@@ -11,4 +11,6 @@ const Carte SPACER = (Carte){
     .valeur = 0,
 };
 
+Carte nouvelle_carte(char lettre);
+
 #endif

@@ -22,13 +22,23 @@ void ajouter_occurrence(Occurrences &occurrences, char lettre) {
 }
 
 void compter(Occurrences &occurrences, Main &main) {
-  for (debut(main.cartes); !estFin(main.cartes); suivant(main.cartes)) {
+  for (debut(main.cartes); !estFin(main.cartes); suivant(main.cartes))
     ajouter_occurrence(occurrences, lire(main.cartes).lettre);
+}
+
+void compter(Occurrences &occurrences, Mot &mot) {
+  for (debut(mot); lire(mot).lettre != '\0'; suivant(mot))
+    ajouter_occurrence(occurrences, lire(mot).lettre);
+}
+
+void compter(Occurrences &occurrences, const char mot[]) {
+  for (unsigned i = 0; i < strlen(mot); ++i) {
+    ajouter_occurrence(occurrences, mot[i]);
   }
 }
 
-void compter(Occurrences &occurrences, const char &mot) {
-  for (unsigned i = 0; i < strlen(&mot); ++i) {
-    ajouter_occurrence(occurrences, (&mot)[i]);
+void combiner(Occurrences &cible, const Occurrences &a, const Occurrences &b) {
+  for (unsigned i = 0; i < NOMBRE_LETTRES; ++i) {
+    cible[i] = a[i] + b[i];
   }
 }

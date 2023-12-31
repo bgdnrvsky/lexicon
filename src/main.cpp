@@ -95,15 +95,13 @@ int main(int argc, char **argv) {
       piocher(exposees, *joueur, exposees);
       break;
     case 'P':
-      // Poser
       poser(*joueur, mots);
       break;
     case 'R':
       remplacer(*joueur, mots);
-      // Remplacer
       break;
     case 'C':
-      // Completer
+      completer(*joueur, mots);
       break;
     case 'Q':
       a_quitter = true;
