@@ -5,9 +5,10 @@
 #include "Mots.h"
 #include "Paquet.h"
 
-void piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees);
-void poser(Joueur &joueur, Mots &mots);
-void remplacer(Joueur &joueur, Mots &mots);
-void completer(Joueur &joueur, Mots &mots);
+// Chaque commande retourne true si la saisie etait valide
+bool piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees);
+bool poser(Joueur &joueur, Mots &mots);
+bool remplacer(Joueur &joueur, Mots &mots);
+bool completer(Joueur &joueur, Mots &mots);
 
 #endif

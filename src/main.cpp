@@ -85,30 +85,37 @@ int main(int argc, char **argv) {
     char commande;
     std::cin >> commande;
 
+    bool commande_valide; // Si la saisie est valide
+
     switch (commande) {
     case 'T':
       // Talon
-      piocher(paquet, *joueur, exposees);
+      commande_valide = piocher(paquet, *joueur, exposees);
       break;
     case 'E':
       // Exposées
-      piocher(exposees, *joueur, exposees);
+      commande_valide = piocher(exposees, *joueur, exposees);
       break;
     case 'P':
-      poser(*joueur, mots);
+      commande_valide = poser(*joueur, mots);
       break;
     case 'R':
-      remplacer(*joueur, mots);
+      commande_valide = remplacer(*joueur, mots);
       break;
     case 'C':
-      completer(*joueur, mots);
+      commande_valide = completer(*joueur, mots);
       break;
     case 'Q':
       a_quitter = true;
+      commande_valide = true;
       break;
     default:
-      // TODO: Recommencer la saisie au cas où la commande est invalide
-      std::cout << "Commande invalide" << std::endl;
+      commande_valide = false;
+    }
+
+    if (!commande_valide) {
+      std::cout << "Commande invalide... Recommencez" << std::endl;
+      continue;
     }
 
     if (a_quitter)

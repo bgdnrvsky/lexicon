@@ -57,7 +57,7 @@ bool poser_le_mot(Main &main_de_joueur, const char mot[], Mots &mots) {
   return true;
 }
 
-void poser(Joueur &joueur, Mots &mots) {
+bool poser(Joueur &joueur, Mots &mots) {
   char *mot = new char[NOMBRE_LETTRES];
   std::scanf("%s", mot);
 
@@ -68,9 +68,11 @@ void poser(Joueur &joueur, Mots &mots) {
     std::cout
         << "Le mot peut pas etre construit a partir de cartes que vous avez"
         << std::endl;
+    return false;
   }
 
   delete[] mot;
+  return true;
 }
 
 /*
@@ -80,7 +82,7 @@ void poser(Joueur &joueur, Mots &mots) {
  * @param[IN, OUT]: Joueur qui pioche
  * @param[IN, OUT]: Paquet de cartes exposées
  */
-void piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees) {
+bool piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees) {
   char lettre;
   std::cin >> lettre;
 
@@ -98,7 +100,7 @@ void piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees) {
   if (!carte_trouvee) {
     std::cout << "La carte " << lettre << " n'est pas dans votre main"
               << std::endl;
-    return;
+    return false;
   }
 
   Carte carte_prise = sommet(paquet);
@@ -110,9 +112,11 @@ void piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees) {
   empiler(exposees, carte_de_joueur);
   inserer(joueur.main.cartes, carte_prise);
   debut(joueur.main.cartes);
+
+  return true;
 }
 
-void remplacer(Joueur &joueur, Mots &mots) {
+bool remplacer(Joueur &joueur, Mots &mots) {
   unsigned int mot_pos;
   std::cin >> mot_pos;
 
@@ -122,7 +126,7 @@ void remplacer(Joueur &joueur, Mots &mots) {
   if (mot_pos > nombre_mots(mots)) {
     std::cout << "Le mot n'existe pas" << std::endl;
     delete[] nouveau_mot;
-    return;
+    return false;
   }
 
   for (debut(mots); mot_pos > 1; suivant_mot(mots))
@@ -137,7 +141,7 @@ void remplacer(Joueur &joueur, Mots &mots) {
                  "lettres est different"
               << std::endl;
     delete[] nouveau_mot;
-    return;
+    return false;
   }
 
   Occurrences compter_joueur;
@@ -156,7 +160,7 @@ void remplacer(Joueur &joueur, Mots &mots) {
                      "cartes possedees par joueur"
                   << std::endl;
         delete[] nouveau_mot;
-        return;
+        return false;
       }
 
       Carte nouvelle_carte;
@@ -174,9 +178,10 @@ void remplacer(Joueur &joueur, Mots &mots) {
   }
 
   delete[] nouveau_mot;
+  return true;
 }
 
-void completer(Joueur &joueur, Mots &mots) {
+bool completer(Joueur &joueur, Mots &mots) {
   unsigned int mot_pos;
   std::cin >> mot_pos;
 
@@ -186,7 +191,7 @@ void completer(Joueur &joueur, Mots &mots) {
   if (mot_pos > nombre_mots(mots)) {
     std::cout << "Le mot n'existe pas" << std::endl;
     delete[] nouveau_mot;
-    return;
+    return false;
   }
 
   for (debut(mots); mot_pos > 1; suivant_mot(mots))
@@ -200,7 +205,7 @@ void completer(Joueur &joueur, Mots &mots) {
     std::cout << "Le nouveau mot doit avoir plus de lettres que l'ancien"
               << std::endl;
     delete[] nouveau_mot;
-    return;
+    return false;
   }
 
   // Verifier que le nouveau mot preserve l'ordre des lettres de l'ancien
@@ -224,7 +229,7 @@ void completer(Joueur &joueur, Mots &mots) {
                    "l'ancien"
                 << std::endl;
       delete[] nouveau_mot;
-      return;
+      return false;
     }
   }
 
@@ -255,7 +260,7 @@ void completer(Joueur &joueur, Mots &mots) {
     // mot deja present
     std::cout << "Le mot peut pas etre consturuit" << std::endl;
     delete[] nouveau_mot;
-    return;
+    return false;
   }
 
   Main nouvelle_main;
@@ -286,4 +291,5 @@ void completer(Joueur &joueur, Mots &mots) {
   }
 
   delete[] nouveau_mot;
+  return true;
 }
