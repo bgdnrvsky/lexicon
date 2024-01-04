@@ -5,6 +5,7 @@
 typedef Chaine Mots;
 typedef Chaine Mot;
 
+void afficher_mots(Mots &mots);
 void ajouter_mot(Mots &mots, Mot &mot);
 void suivant_mot(Mots &mots);
 void lire_mot(Mots &mots, Mot &mot);

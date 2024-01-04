@@ -1,6 +1,22 @@
 #include "Mots.h"
 #include <iostream>
 
+void afficher_mots(Mots &mots) {
+  unsigned int i = 1;
+  for (debut(mots); !estFin(mots); suivant_mot(mots)) {
+    Mot mot;
+    lire_mot(mots, mot);
+
+    std::cout << i << " - ";
+
+    afficher(mot);
+
+    std::cout << std::endl;
+
+    i++;
+  }
+}
+
 void ajouter_mot(Mots &mots, Mot &mot) {
   fin(mots);
 
