@@ -156,7 +156,7 @@ bool remplacer(Joueur &joueur, Mots &mots) {
       // La lettre doit etre remplacee par une carte de la main de joueur
       if (nombre_occurrences(compter_joueur, nouvelle_lettre) == 0) {
         // On peut pas remplacer la lettre
-        std::cout << "Le nouveau mot peut pas etre construit a partir de "
+        std::cout << "Le nouveau mot ne peut pas etre construit a partir de "
                      "cartes possedees par joueur"
                   << std::endl;
         delete[] nouveau_mot;

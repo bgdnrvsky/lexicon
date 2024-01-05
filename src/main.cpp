@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
     }
 
     if (!commande_valide) {
-      std::cout << "Commande invalide... Recommencez" << std::endl;
+      std::cout << "Coup invalide, recommencez" << std::endl;
       continue;
     }
 
