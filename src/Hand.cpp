@@ -23,7 +23,7 @@ void retirer_carte(Main &main) {
   main.restantes--;
 }
 
-bool retrouver_carte(Main &main, Carte carte) {
+bool carte_existe(Main &main, Carte carte) {
     for (debut(main.cartes); !estFin(main.cartes); suivant(main.cartes)) {
         if (lire(main.cartes).lettre == carte.lettre) {
             return true;
