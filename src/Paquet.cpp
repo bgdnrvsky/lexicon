@@ -3,9 +3,10 @@
 #include <cassert>
 
 /**
- * @brief Remplit un paquet avec des cartes pre-definies
- * @param[out] paquet: le paquet a remplir
- * @note utilisation de la fonction empiler
+ * @brief Remplit le paquet de cartes
+ * @param[out] paquet:le paquet a remplir
+ * @pre Le paquet doit etre initialise .
+ * @see empiler
  */
 void remplir(Paquet &paquet) {
   unsigned int nombre_total = 0; // Nombre total de cartes dans le paquet
@@ -25,10 +26,11 @@ void remplir(Paquet &paquet) {
 }
 
 /**
- * @brief Distribue les cartes aux joueurs
- * @param[in,out] paquet : le paquet dont on distribue les cartes
- * @param[in,out] joueur : le joueur reçevant les cartes
- * @note utilise la fonction ajouter_carte et depiler
+ * @brief Distribue des cartes du paquet au joueur
+ * @param[in,out] paquet:  le paquet contenant les cartes a distribuer
+ * @param[in,out] joueur: le joueur recevant les cartes
+ * @pre le joueur doit etre initialise
+ * @see ajouter_carte, depiler
  */
 void distribuer(Paquet &paquet, Joueur &joueur) {
     for (unsigned int i = 0; i < CARTES_PAR_JOUEUR; i++) {

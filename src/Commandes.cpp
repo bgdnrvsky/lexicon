@@ -75,12 +75,14 @@ bool poser(Joueur &joueur, Mots &mots) {
   return true;
 }
 
-/*
- * @brief: Le joueur pioche une carte du paquet et met une de ses cartes sur le
- * paquet de cartes exposéeses
- * @param[IN, OUT]: Paquet d'où le joueur pioche
- * @param[IN, OUT]: Joueur qui pioche
- * @param[IN, OUT]: Paquet de cartes exposées
+
+/**
+ * @brief Permet à un joueur piocher une carte du paquet et met une de ses cartes sur le
+ * paquet de cartes exposees
+ * @param[in,out]: paquet: paquet de cartes a piocher
+ * @param[in,out]: joueur: joueur qui pioche
+ * @param[in,out]: exposees: paquet de cartes exposées
+ * @see debut, estFin, suivant, lire, sommet, depiler, supprimer, empiler et inserer
  */
 bool piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees) {
   char lettre;
@@ -116,6 +118,12 @@ bool piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees) {
   return true;
 }
 
+/**
+ * @brief Remplace un mot pose par un nouveau mot construit a partir de celui-ci en y
+ *        inserant des lettres par d'autres lettre detenues par le joueur
+ * @param[in,out] joueur: le joueur qui effectue le remplacement
+ * @param[in,out] mots: la chaine de mots poses ou se trouve le mot a remplacer
+ */
 bool remplacer(Joueur &joueur, Mots &mots) {
   unsigned int mot_pos;
   std::cin >> mot_pos;
@@ -181,6 +189,12 @@ bool remplacer(Joueur &joueur, Mots &mots) {
   return true;
 }
 
+/**
+ * @brief Complète un mot pose par un nouveau mot construit a partir de celui-ci en y
+ *        inserant des lettres detenues par le joueur.
+ * @param[in,out] joueur : le joueur qui complete le mot
+ * @param[in,out] mots: la chaine de mots poses ou se trouve le mot a completer
+ */
 bool completer(Joueur &joueur, Mots &mots) {
   unsigned int mot_pos;
   std::cin >> mot_pos;
