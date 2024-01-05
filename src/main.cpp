@@ -38,10 +38,9 @@ int main(int argc, char **argv) {
   Paquet exposees; // Les cartes exposées
   Mots mots;       // Les mots poses
 
-  unsigned int joueur_id; // ID du joueur qui joue
+  unsigned int joueur_id = 0; // ID du joueur qui joue
 
-  for (joueur_id = 0; nombre_joueurs_actifs > 1;
-       joueur_id = (joueur_id + 1) % nombre_joueurs) {
+  while (nombre_joueurs_actifs > 1) {
     if (reinitilisation) {
       joueur_id = 0;
 
@@ -84,34 +83,41 @@ int main(int argc, char **argv) {
     char commande;
     std::cin >> commande;
 
-    bool commande_valide; // Si la saisie est valide
+    Status status_commande; // Si la saisie est valide
 
     // Executer la commande
     switch (commande) {
     case 'T':
       // Talon
-      commande_valide = piocher(paquet, joueur_courant, exposees);
+      status_commande = piocher(paquet, joueur_courant, exposees);
       break;
     case 'E':
       // Exposées
-      commande_valide = piocher(exposees, joueur_courant, exposees);
+      status_commande = piocher(exposees, joueur_courant, exposees);
       break;
     case 'P':
-      commande_valide = poser(joueur_courant, mots);
+      status_commande = poser(joueur_courant, mots);
       break;
     case 'R':
-      commande_valide = remplacer(joueur_courant, mots);
+      status_commande = remplacer(joueur_courant, mots);
       break;
     case 'C':
-      commande_valide = completer(joueur_courant, mots);
+      status_commande = completer(joueur_courant, mots);
       break;
     default:
-      commande_valide = false;
+      status_commande = COMMANDE_INVALIDE;
     }
 
-    if (!commande_valide) {
-      std::cout << "Coup invalide, recommencez" << std::endl;
+    switch (status_commande) {
+    case COMMANDE_INVALIDE:
+      std::cout << "Commande invalide, recommencez" << std::endl;
       continue;
+      break;
+    case MOT_INEXISTANT:
+      std::cout << "Le mot n'existe pas" << std::endl;
+      break;
+    case SUCCES:
+      break;
     }
 
     if (joueur_courant.main.restantes == 0) {
@@ -130,6 +136,8 @@ int main(int argc, char **argv) {
         }
       }
     }
+
+    joueur_id = (joueur_id + 1) % nombre_joueurs;
 
     if (reinitilisation) {
       detruire(mots);
@@ -170,5 +178,6 @@ int main(int argc, char **argv) {
     }
   }
 
-  std::cout << "Felicitations au joueur " << gagnant_id + 1 << ", il a gagne!" << std::endl;
+  std::cout << "Felicitations au joueur " << gagnant_id + 1 << ", il a gagne!"
+            << std::endl;
 }
