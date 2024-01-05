@@ -2,6 +2,11 @@
 #include "Hand.h"
 #include <cassert>
 
+/**
+ * @brief Remplit un paquet avec des cartes pre-definies
+ * @param[out] paquet: le paquet a remplir
+ * @note utilisation de la fonction empiler
+ */
 void remplir(Paquet &paquet) {
   unsigned int nombre_total = 0; // Nombre total de cartes dans le paquet
   for (unsigned int i = 0; i < 26; i++) {
@@ -19,6 +24,12 @@ void remplir(Paquet &paquet) {
   assert(nombre_total == CARTES_PAR_PAQUET);
 }
 
+/**
+ * @brief Distribue les cartes aux joueurs
+ * @param[in,out] paquet : le paquet dont on distribue les cartes
+ * @param[in,out] joueur : le joueur reçevant les cartes
+ * @note utilise la fonction ajouter_carte et depiler
+ */
 void distribuer(Paquet &paquet, Joueur &joueur) {
     for (unsigned int i = 0; i < CARTES_PAR_JOUEUR; i++) {
         ajouter_carte(joueur.main, sommet(paquet));
