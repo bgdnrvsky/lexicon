@@ -1,6 +1,7 @@
 #ifndef _COMMANDES_H_
 #define _COMMANDES_H_
 
+#include "Dictionnaire.h"
 #include "Joueur.h"
 #include "Mots.h"
 #include "Paquet.h"
@@ -19,7 +20,7 @@ enum Status { COMMANDE_INVALIDE, MOT_INEXISTANT, SUCCES };
  */
 Status piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees);
 
-Status poser(Joueur &joueur, Mots &mots);
+Status poser(Joueur &joueur, Mots &mots, Dictionnaire &dictionnaire);
 
 /**
  * @brief Remplace un mot pose par un nouveau mot construit a partir de celui-ci
@@ -27,7 +28,7 @@ Status poser(Joueur &joueur, Mots &mots);
  * @param[in,out] joueur: le joueur qui effectue le remplacement
  * @param[in,out] mots: la chaine de mots poses ou se trouve le mot a remplacer
  */
-Status remplacer(Joueur &joueur, Mots &mots);
+Status remplacer(Joueur &joueur, Mots &mots, Dictionnaire &dictionnaire);
 
 /**
  * @brief Complète un mot pose par un nouveau mot construit a partir de celui-ci
@@ -35,6 +36,6 @@ Status remplacer(Joueur &joueur, Mots &mots);
  * @param[in,out] joueur : le joueur qui complete le mot
  * @param[in,out] mots: la chaine de mots poses ou se trouve le mot a completer
  */
-Status completer(Joueur &joueur, Mots &mots);
+Status completer(Joueur &joueur, Mots &mots, Dictionnaire &dictionnaire);
 
 #endif

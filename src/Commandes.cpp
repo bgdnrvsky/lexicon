@@ -1,5 +1,6 @@
 #include "Commandes.h"
 #include "Carte.h"
+#include "Dictionnaire.h"
 #include "Hand.h"
 #include "Mots.h"
 #include "Occurrence.h"
@@ -57,11 +58,14 @@ Status poser_le_mot(Main &main_de_joueur, const char mot[], Mots &mots) {
   return SUCCES;
 }
 
-Status poser(Joueur &joueur, Mots &mots) {
+Status poser(Joueur &joueur, Mots &mots, Dictionnaire &dictionnaire) {
   char *mot = new char[NOMBRE_LETTRES];
   std::scanf("%s", mot);
 
-  // TODO: Vérifier que le mot est dans le dictionnaire
+  if (!rechercher(dictionnaire, mot)) {
+    delete[] mot;
+    return MOT_INEXISTANT;
+  }
 
   // TODO: Extraire la fonction poser_le_mot a la fonction poser
   Status status = poser_le_mot(joueur.main, mot, mots);
@@ -119,12 +123,17 @@ Status piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees) {
  * @param[in,out] joueur: le joueur qui effectue le remplacement
  * @param[in,out] mots: la chaine de mots poses ou se trouve le mot a remplacer
  */
-Status remplacer(Joueur &joueur, Mots &mots) {
+Status remplacer(Joueur &joueur, Mots &mots, Dictionnaire &dictionnaire) {
   unsigned int mot_pos;
   std::cin >> mot_pos;
 
   char *nouveau_mot = new char[NOMBRE_LETTRES];
   std::scanf("%s", nouveau_mot);
+
+  if (!rechercher(dictionnaire, nouveau_mot)) {
+    delete[] nouveau_mot;
+    return MOT_INEXISTANT;
+  }
 
   if (mot_pos > nombre_mots(mots)) {
     std::cout << "Le mot n'existe pas" << std::endl;
@@ -190,12 +199,17 @@ Status remplacer(Joueur &joueur, Mots &mots) {
  * @param[in,out] joueur : le joueur qui complete le mot
  * @param[in,out] mots: la chaine de mots poses ou se trouve le mot a completer
  */
-Status completer(Joueur &joueur, Mots &mots) {
+Status completer(Joueur &joueur, Mots &mots, Dictionnaire &dictionnaire) {
   unsigned int mot_pos;
   std::cin >> mot_pos;
 
   char *nouveau_mot = new char[NOMBRE_LETTRES];
   std::scanf("%s", nouveau_mot);
+
+  if (!rechercher(dictionnaire, nouveau_mot)) {
+    delete[] nouveau_mot;
+    return MOT_INEXISTANT;
+  }
 
   if (mot_pos > nombre_mots(mots)) {
     std::cout << "Le mot n'existe pas" << std::endl;

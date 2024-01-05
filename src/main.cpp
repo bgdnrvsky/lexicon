@@ -1,4 +1,5 @@
 #include "Commandes.h"
+#include "Dictionnaire.h"
 #include "Joueur.h"
 #include "Mots.h"
 #include "Paquet.h"
@@ -33,6 +34,10 @@ int main(int argc, char **argv) {
 
   bool reinitilisation =
       true; // Lorsque le premier ou nouveau tour on initialise les objets
+
+  Dictionnaire dictionnaire;
+  const char chemin_dictionnaire[] = "ods4.txt";
+  initialiser(dictionnaire, chemin_dictionnaire);
 
   Paquet paquet;
   Paquet exposees; // Les cartes exposées
@@ -96,13 +101,13 @@ int main(int argc, char **argv) {
       status_commande = piocher(exposees, joueur_courant, exposees);
       break;
     case 'P':
-      status_commande = poser(joueur_courant, mots);
+      status_commande = poser(joueur_courant, mots, dictionnaire);
       break;
     case 'R':
-      status_commande = remplacer(joueur_courant, mots);
+      status_commande = remplacer(joueur_courant, mots, dictionnaire);
       break;
     case 'C':
-      status_commande = completer(joueur_courant, mots);
+      status_commande = completer(joueur_courant, mots, dictionnaire);
       break;
     default:
       status_commande = COMMANDE_INVALIDE;
