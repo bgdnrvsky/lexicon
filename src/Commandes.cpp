@@ -35,7 +35,7 @@ Status poser_le_mot(Main &main_de_joueur, const char mot[], Mots &mots) {
     if (occurrences_dans_mot > occurrences_chez_joueur) {
       // Le nombre de cartes qui contient la lettre n'est pas suffisant
       detruire(nouveau_mot);
-      return MOT_INEXISTANT;
+      return COMMANDE_INVALIDE;
     }
 
     Carte carte;

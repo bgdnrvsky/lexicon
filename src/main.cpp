@@ -122,11 +122,11 @@ int main(int argc, char **argv) {
 
     switch (status_commande) {
     case COMMANDE_INVALIDE:
-      std::cout << "Commande invalide, recommencez" << std::endl;
+      std::cout << "Coup invalide, recommencez" << std::endl;
       continue;
       break;
     case MOT_INEXISTANT:
-      std::cout << "Le mot n'existe pas" << std::endl;
+      std::cout << "Mot invalide, vous passez votre tour”" << std::endl;
       joueur_courant.score += 3;
       break;
     case SUCCES:
