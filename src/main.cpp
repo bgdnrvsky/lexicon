@@ -126,7 +126,7 @@ int main(int argc, char **argv) {
       continue;
       break;
     case MOT_INEXISTANT:
-      std::cout << "Mot invalide, vous passez votre tour”" << std::endl;
+      std::cout << "Mot invalide, vous passez votre tour" << std::endl;
       joueur_courant.score += 3;
       break;
     case SUCCES:
