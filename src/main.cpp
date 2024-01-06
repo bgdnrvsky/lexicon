@@ -120,6 +120,7 @@ int main(int argc, char **argv) {
       break;
     case MOT_INEXISTANT:
       std::cout << "Le mot n'existe pas" << std::endl;
+      joueur_courant.score += 3;
       break;
     case SUCCES:
       break;
