@@ -13,7 +13,7 @@ bool initialiser(Dictionnaire &dictionnaire, const char chemin[]) {
   return code;
 }
 
-bool rechercher(Dictionnaire &dictionnaire, const char *mot) {
+bool rechercher(const Dictionnaire &dictionnaire, const char mot[]) {
   std::ifstream fichier(dictionnaire.chemin);
 
   if (!fichier) {

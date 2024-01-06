@@ -20,9 +20,11 @@ const Carte SPACER = (Carte){
 };
 
 /**
- * @brief Cree une nouvelle carte a partir d'une lettre donnee
- * @param[in] Lettre associee a la nouvelle carte
- * @return Carte creee avec la lettre specifiee et la valeur associee
+ * @brief Cree une nouvelle carte a partir d'une lettre donnee.
+ * @param[in] Lettre associee a la nouvelle carte.
+ * @note La fonction utilise la liste TOUTES_CARTES pour obtenir la valeur
+ * associee a la lettre.
+ * @return Nouvelle carte creee avec la lettre specifiee et sa valeur associee.
  */
 Carte nouvelle_carte(char lettre);
 

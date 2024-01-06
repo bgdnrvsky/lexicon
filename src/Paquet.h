@@ -17,11 +17,14 @@ const int TOUTES_CARTES[NOMBRE_LETTRES][2] = {
 
 #include "libs/Pile.h"
 
+/**
+ * @brief Structure de donnees representant un paquet de carte
+ */
 typedef Pile Paquet;
 
 /**
  * @brief Remplit le paquet de cartes
- * @param[out] paquet:le paquet a remplir
+ * @param[out] le paquet a remplir
  * @pre Le paquet doit etre initialise .
  * @see empiler
  */
@@ -29,9 +32,9 @@ void remplir(Paquet &paquet);
 
 /**
  * @brief Distribue des cartes du paquet au joueur
- * @param[in,out] paquet:  le paquet contenant les cartes a distribuer
- * @param[in,out] joueur: le joueur recevant les cartes
- * @pre le joueur doit etre initialise
+ * @param[in,out] Le paquet contenant les cartes a distribuer
+ * @param[in,out] Le joueur recevant les cartes
+ * @pre Le joueur doit etre initialise
  * @see ajouter_carte, depiler
  */
 void distribuer(Paquet &paquet, Joueur &joueur);

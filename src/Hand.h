@@ -16,14 +16,14 @@ typedef struct {
 
 /**
  * @brief Initialise la main d'un joueur
- * @param[in,out] main: la main du joueur
+ * @param[out] main: la main du joueur
  * @see la fonction initaliser de Chaine.h
  */
 void initialiser(Main &main);
 
 /**
  * @brief Detruit la main d'un joueur
- * @param[in,out]  main: r la main du joueur
+ * @param[out] main: la main du joueur
  * @see la fonction détruire de Chaine.H
  */
 void detruire(Main &main);

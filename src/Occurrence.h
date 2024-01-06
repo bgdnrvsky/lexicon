@@ -38,17 +38,29 @@ void retirer_occurrence(Occurrences &occurrences, char lettre);
 void ajouter_occurrence(Occurrences &occurrences, char lettre);
 
 /**
- * @brief Compte le nombre d'occurences de chaque lettre dans la main
- * @param[in,out] occurrences: tableau d'occurrences a mettre a jour
+ * @brief Compte le nombre d'occurences de chaque lettre dans la main de cartes
+ * @param[out] occurrences: tableau d'occurrences a mettre a jour
  * @param[in] main : main de cartes a analyser
  * @see debut, estFin, suivant, lire ajouter_occurrences
  */
 void compter(Occurrences &occurrences, Main &main);
 
+/**
+ * @brief Compte le nombre d'occurences de chaque lettre dans un mot (chaine de
+ * cartes)
+ * @param[out] occurrences: tableau d'occurrences a mettre a jour
+ * @param[in] mot : mot a analyser
+ * @see debut, estFin, suivant, lire ajouter_occurrences
+ */
 void compter(Occurrences &occurrences, Mot &mot);
 
+/**
+ * @brief Compte le nombre d'occurences de chaque lettre dans un mot (chaine de
+ * caracteres)
+ * @param[out] occurrences: tableau d'occurrences a mettre a jour
+ * @param[in] mot : mot a analyser
+ * @see debut, estFin, suivant, lire ajouter_occurrences
+ */
 void compter(Occurrences &occurrences, const char mot[]);
-
-void combiner(Occurrences &cible, const Occurrences &a, const Occurrences &b);
 
 #endif

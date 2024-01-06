@@ -25,7 +25,7 @@ unsigned int calculer_score(Joueur &joueur);
 
 /**
  * @brief Initialise les données d'un joueur
- * @param[in,out] joueur: le joueur à initialiser
+ * @param[out] joueur: le joueur à initialiser
  * @see initialiser
  */
 void initialiser(Joueur &joueur);
