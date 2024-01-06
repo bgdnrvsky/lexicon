@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
   Joueur joueurs[MAX_NOMBRE_JOUEURS];
 
   for (unsigned int i = 0; i < (unsigned int)nombre_joueurs; i++)
-    initialiser(joueurs[i]);
+    initialiser(joueurs[i], i);
 
   unsigned int nombre_joueurs_actifs =
       nombre_joueurs; // Nombre de joueurs qui sont toujours en jeu
@@ -44,6 +44,7 @@ int main(int argc, char **argv) {
   Mots mots;       // Les mots poses
 
   unsigned int joueur_id = 0; // ID du joueur qui joue
+  unsigned int tour = 0;      // Nombre de tours joues
 
   while (nombre_joueurs_actifs > 1) {
     if (reinitilisation) {
@@ -131,18 +132,23 @@ int main(int argc, char **argv) {
       // On calcule les points
       reinitilisation = true;
 
+      std::cout << "Le tour est fini" << std::endl;
+
       for (unsigned int i = 0; i < (unsigned int)nombre_joueurs; i++) {
         Joueur &joueur = joueurs[i];
         joueur.score += calculer_score(joueur);
 
         if (joueur.score >= 100) {
-          std::cout << "Le joueur " << i + 1 << " a perdu !" << std::endl;
           joueur.est_perdant = true;
+          joueur.tour_perdu = tour;
           nombre_joueurs_actifs--;
         }
       }
+
+      afficher_scores(joueurs, nombre_joueurs, tour);
     }
 
+    tour++;
     joueur_id = (joueur_id + 1) % nombre_joueurs;
 
     if (reinitilisation) {
