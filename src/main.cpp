@@ -163,7 +163,7 @@ int main(int argc, char **argv) {
       detruire(exposees);
 
       for (unsigned int i = 0; (int)i < nombre_joueurs; i++)
-        detruire(joueurs[i].main.cartes);
+        detruire(joueurs[i].main);
     }
   }
 
