@@ -11,7 +11,8 @@ typedef struct {
 } Carte;
 
 /**
- * @brief Carte spéciale représentant un espace.
+ * @brief Carte spéciale représentant un espace. Utilisee pour tous stocker tous
+ * les mots.
  */
 const Carte SPACER = (Carte){
     .lettre = '\0',
@@ -20,8 +21,8 @@ const Carte SPACER = (Carte){
 
 /**
  * @brief Cree une nouvelle carte a partir d'une lettre donnee
- * @param[in] lettre: lettre associee a la nouvelle carte
- * @return Carte: carte creee avec la lettre specifiee et la valeur associee
+ * @param[in] Lettre associee a la nouvelle carte
+ * @return Carte creee avec la lettre specifiee et la valeur associee
  */
 Carte nouvelle_carte(char lettre);
 

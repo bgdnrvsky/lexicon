@@ -15,17 +15,17 @@
 /** Type Maillon avec le principe du simple chaînage (maillon suivant)
  */
 struct Maillon {
-  Item elem;     // Elément (du maillon) de la liste chaînée
-  Maillon *suiv; // Pointeur sur le maillon suivant
+  Item elem;     ///< Elément (du maillon) de la liste chaînée
+  Maillon *suiv; ///< Pointeur sur le maillon suivant
 };
 
 /** Type Chaine
  *  Repères du début de chaîne et du  maillon courant
  */
 struct Chaine {
-  Maillon *tete;     // Pointeur sur le maillon de tête
-  Maillon **courant; // Superpointeur (pointeur du pointeur)
-                     // désignant le maillon courant
+  Maillon *tete;     ///< Pointeur sur le maillon de tête
+  Maillon **courant; ///< Superpointeur (pointeur du pointeur)
+                     ///< désignant le maillon courant
 };
 
 /**
@@ -81,9 +81,6 @@ void ecrire(Chaine &c, const Item &elem);
  */
 Item lire(const Chaine &c);
 
-void avancer_par(Chaine &c, unsigned int n);
-Item lire_nth(Chaine &c, unsigned int n);
-
 /**
  * @brief Positionnement du maillon courant en début de chaîne
  * @param[in,out] c : la chaîne
@@ -100,7 +97,6 @@ bool estDebut(const Chaine &c);
 /**
  * @brief Positionnement du maillon courant en fin de chaîne
  * @param[in,out] c : la chaîne
- * @return true si le maillon courant est la fin de chaîne, false sinon
  */
 void fin(Chaine &c);
 

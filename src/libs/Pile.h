@@ -12,11 +12,14 @@
 
 #include "Item.h"
 
+/**
+ * @brief Type de donnees - Pile
+ */
 struct Pile {
-	unsigned int capacite;  // capacité de la pile (c>0) 
-	unsigned int pasExtension;
-	Item* tab;				// tableau des éléments de pile en mémoire dynamique
-	int sommet;				// indice de sommet de pile dans tab
+	unsigned int capacite;  ///< capacité de la pile (c>0) 
+	unsigned int pasExtension; ///< pas d'extension de capacité (p>0)< 
+	Item* tab;				///< tableau des éléments de pile en mémoire dynamique
+	int sommet;				///< indice de sommet de pile dans tab
 };
 
  /**

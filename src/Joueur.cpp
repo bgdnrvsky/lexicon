@@ -3,7 +3,8 @@
 #include <cstdio>
 
 /**
- * @brief Calcule le score total du joueur en additionnant les valeurs des cartes.
+ * @brief Calcule le score total du joueur en additionnant les valeurs des
+ * cartes.
  * @param[in] joueur : le joueur dont on calcule le score
  * @see debut, estFin, suivant, lire
  * @return unsigned int : le score total du joueur après calcul

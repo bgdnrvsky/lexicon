@@ -32,16 +32,18 @@ void afficher_mots(Mots &mots);
 void ajouter_mot(Mots &mots, Mot &mot);
 
 /**
- * @brief Deplace le curseur vers le mot suivant dans la chaine de mots poses par les joueurs.
- * @param[?] mots: la chaine de mots poses a parcourir.
+ * @brief Deplace le curseur vers le mot suivant dans la chaine de mots poses
+ * par les joueurs.
+ * @param[in, out] mots: la chaine de mots poses a parcourir.
  * @see estFin, suivant, lire, SPACER
  */
 void suivant_mot(Mots &mots);
 
 /**
- * @brief Lecture du mot stocke dans le maillon courant de la chaine de mots poses.
+ * @brief Lecture du mot stocke dans le maillon courant de la chaine de mots
+ * poses.
  * @param[in] mots: la chaine de mots poses ou se trouve le mot a lire
- * @param[?] mot : le mot ou sont stocke les informations lues
+ * @param[out] mot : le mot ou sont stocke les informations lues
  */
 void lire_mot(Mots &mots, Mot &mot);
 
@@ -54,7 +56,8 @@ void lire_mot(Mots &mots, Mot &mot);
 unsigned int taille_mot(Mot &mot);
 
 /**
- * @brief Calcule le nombre de mots dans la chaine de mots poses par les joueurs.
+ * @brief Calcule le nombre de mots dans la chaine de mots poses par les
+ * joueurs.
  * @param[in] mots: la chaine de mots poses dont on calcule le nombre de mots
  * @see debut, estFin, suivant_mot
  * @return unsigned int : nombre de mots poses durant la partie

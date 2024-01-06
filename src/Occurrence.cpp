@@ -45,7 +45,7 @@ void ajouter_occurrence(Occurrences &occurrences, char lettre) {
  * @brief Compte le nombre d'occurences de chaque lettre dans la main
  * @param[in,out] occurrences: tableau d'occurrences a mettre a jour
  * @param[in] main : main de cartes a analyser
- * @see debut, estFin, suivant, lire ajouter_occurrences
+ * @see debut, estFin, suivant, lire et ajouter_occurrences
  */
 void compter(Occurrences &occurrences, Main &main) {
   for (debut(main.cartes); !estFin(main.cartes); suivant(main.cartes))

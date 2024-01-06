@@ -3,9 +3,9 @@
 
 #include "Mots.h"
 #include "Paquet.h"
+
 /**
- * @typedef Occurences
- * @brief type representant un tableau d'occurrences pour chaque lettre
+ * @brief Type representant un tableau d'occurrences pour chaque lettre
  */
 typedef unsigned Occurrences[NOMBRE_LETTRES];
 
@@ -45,12 +45,9 @@ void ajouter_occurrence(Occurrences &occurrences, char lettre);
  */
 void compter(Occurrences &occurrences, Main &main);
 
-
 void compter(Occurrences &occurrences, Mot &mot);
 
-
 void compter(Occurrences &occurrences, const char mot[]);
-
 
 void combiner(Occurrences &cible, const Occurrences &a, const Occurrences &b);
 

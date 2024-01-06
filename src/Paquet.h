@@ -25,7 +25,7 @@ typedef Pile Paquet;
  * @pre Le paquet doit etre initialise .
  * @see empiler
  */
-void remplir(Paquet& paquet);
+void remplir(Paquet &paquet);
 
 /**
  * @brief Distribue des cartes du paquet au joueur
@@ -34,6 +34,6 @@ void remplir(Paquet& paquet);
  * @pre le joueur doit etre initialise
  * @see ajouter_carte, depiler
  */
-void distribuer(Paquet& paquet, Joueur& joueur);
+void distribuer(Paquet &paquet, Joueur &joueur);
 
 #endif

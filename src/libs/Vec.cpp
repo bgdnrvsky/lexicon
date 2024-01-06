@@ -1,12 +1,3 @@
-/**
- * @file Vec.cpp
- * Projet sem04-tp-Cpp1-3
- * @author l'équipe pédagogique
- * @version 2 - 29/11/2014
- * @brief corrige du TD n°3 sur machine - Exercice 2
- * Structures de données et algorithmes - DUT1 Paris Descartes
- */
-
 #include "Vec.h"
 #include "Item.h"
 #include <cassert>
@@ -15,16 +6,6 @@
 #include <ctime>
 using namespace std;
 
-/**
- * @brief Initialise un conteneur d'items
- * Allocation en mémoire dynamique du conteneur d'items
- * de capacité (capa) extensible par pas d'extension (p)
- * @see detruire, pour sa désallocation en fin d'utilisation
- * @param[out] c : le conteneur d'items
- * @param [in] capa : capacité du conteneur
- * @param [in] p : pas d'extension de capacité
- * @pre capa>0 et p>0
- */
 void initialiser(Vec &c, unsigned int capa) {
   assert((capa > 0));
   c.capacite = capa;
@@ -34,34 +15,16 @@ void initialiser(Vec &c, unsigned int capa) {
   c.tab = new Item[capa];
 }
 
-/**
- * @brief Désalloue un conteneur d'items en mémoire dynamique
- * @see initialiser, le conteneur d'items a déjà été alloué
- * @param[out] c : le conteneur d'items
- */
 void detruire(Vec &c) {
   delete[] c.tab;
   c.tab = NULL;
 }
 
-/**
- * @brief Lecture d'un item d'un conteneur d'items
- * @param[in] c : le conteneur d'items
- * @param[in] i : la position de l'item dans le conteneur
- * @return l'item à la position i
- * @pre i < c.capacite
- */
 Item lire(const Vec &c, unsigned int i) {
   assert(i < c.len);
   return c.tab[i];
 }
 
-/**
- * @brief Ecrire un item dans un conteneur d'items
- * @param[in,out] c : le conteneur d'items
- * @param[in] i : la position où ajouter/modifier l'item
- * @param[in] it : l'item à écrire
- */
 void ecrire(Vec &c, unsigned int i, const Item &it) {
   if (i >= c.capacite) {
     /* Stratégie de réallocation proportionnelle au pas d'extension :
@@ -88,10 +51,6 @@ void ecrire(Vec &c, unsigned int i, const Item &it) {
   c.len++;
 }
 
-/**
- * @brief Melanger le contenu de liste
- * @param[in,out] c : le conteneur d'items
- */
 void melanger(Item *vec, unsigned int nb) {
   srand(time(NULL));
 

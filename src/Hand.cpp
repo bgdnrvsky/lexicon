@@ -8,8 +8,8 @@
  * @see la fonction initaliser de Chaine.h
  */
 void initialiser(Main &main) {
-    initialiser(main.cartes);
-    main.restantes = 0;
+  initialiser(main.cartes);
+  main.restantes = 0;
 }
 
 /**
@@ -18,14 +18,14 @@ void initialiser(Main &main) {
  * @see la fonction détruire de Chaine.H
  */
 void detruire(Main &main) {
-    detruire(main.cartes);
-    main.restantes = 0;
+  detruire(main.cartes);
+  main.restantes = 0;
 }
 
 /**
  * @brief Ajoute une carte a la main du joueur
- * @param[?] main: reference vers la main ou on insere la carte
- * @param[?] carte : carte inseree dans la main du joueur
+ * @param[out] main: reference vers la main ou on insere la carte
+ * @param[in] carte : carte inseree dans la main du joueur
  * @see inserer, suivant
  */
 void ajouter_carte(Main &main, Carte carte) {
@@ -46,37 +46,37 @@ void retirer_carte(Main &main) {
 
 /**
  * @brief Verifie la presence d'une carte dans la main du joueur
- * @param[?] main : la main du joueur
- * @param[?] carte : la carte a rechercher dans la main
+ * @param[in] main : la main du joueur
+ * @param[in] carte : la carte a rechercher dans la main
  * @see debut, estFin, suivant, lire
  * @return vrai si la carte est presente dans la main, faux sinon.
  */
 bool carte_existe(Main &main, Carte carte) {
-    for (debut(main.cartes); !estFin(main.cartes); suivant(main.cartes)) {
-        if (lire(main.cartes).lettre == carte.lettre) {
-            return true;
-        }
+  for (debut(main.cartes); !estFin(main.cartes); suivant(main.cartes)) {
+    if (lire(main.cartes).lettre == carte.lettre) {
+      return true;
     }
+  }
 
-    return false;
+  return false;
 }
 
 /**
  * @brief Retrouve une carte par sa lettre dans la main du joueur
- * @param[?] main : la main du joueur
- * @param[?] lettre: lettre de la carte a chercher
+ * @param[in] main : la main du joueur
+ * @param[in] lettre: lettre de la carte a chercher
  * @param[out] carte : la carte a rechercher dans la main
  * @see debut, estFin, suivant, lire
  * @return vrai si la carte est trouvée, sinon faux.
  */
 bool retrouver_carte_par_lettre(Main &main, char lettre, Carte &carte) {
-    for (debut(main.cartes); !estFin(main.cartes); suivant(main.cartes)) {
-        if (lire(main.cartes).lettre == lettre) {
-            carte.lettre = lettre;
-            carte.valeur = TOUTES_CARTES[lettre - 'A'][1];
-            return true;
-        }
+  for (debut(main.cartes); !estFin(main.cartes); suivant(main.cartes)) {
+    if (lire(main.cartes).lettre == lettre) {
+      carte.lettre = lettre;
+      carte.valeur = TOUTES_CARTES[lettre - 'A'][1];
+      return true;
     }
+  }
 
-    return false;
+  return false;
 }

@@ -38,7 +38,7 @@ void detruire(Chaine &c) {
 /**
  * @brief Test de chaîne vide
  * @param[in] c : la chaîne testée
- * @return true si c est vide, false sinon
+ * @return true si c'est vide, false sinon
  */
 bool estVide(const Chaine &c) { return c.tete == NULL; }
 
@@ -105,7 +105,6 @@ bool estDebut(const Chaine &c) { return c.courant == &(c.tete); }
 /**
  * @brief Positionnement du maillon courant en fin de chaîne
  * @param[in,out] c : la chaîne
- * @return true si le maillon courant est la fin de chaîne, false sinon
  */
 void fin(Chaine &c) {
   while (!estFin(c))

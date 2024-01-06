@@ -10,8 +10,8 @@
  */
 
 typedef struct {
-    Chaine cartes;  /**< Chaîne représentant les cartes dans la main. */
-    unsigned int restantes; /**< Nombre de cartes restantes dans la main */
+  Chaine cartes;          /**< Chaîne représentant les cartes dans la main. */
+  unsigned int restantes; /**< Nombre de cartes restantes dans la main */
 } Main;
 
 /**
@@ -30,8 +30,8 @@ void detruire(Main &main);
 
 /**
  * @brief Ajoute une carte a la main du joueur
- * @param[?] main:  la main ou on insere la carte
- * @param[?] carte : carte inseree dans la main du joueur
+ * @param[out] main:  la main ou on insere la carte
+ * @param[in] carte : carte inseree dans la main du joueur
  * @see inserer, suivant
  */
 void ajouter_carte(Main &main, Carte carte);
@@ -45,8 +45,8 @@ void retirer_carte(Main &main);
 
 /**
  * @brief Verifie la presence d'une carte dans la main du joueur
- * @param[?] main :  la main du joueur
- * @param[?] carte : la carte a rechercher dans la main
+ * @param[in] main :  la main du joueur
+ * @param[in] carte : la carte a rechercher dans la main
  * @see debut, estFin, suivant, lire
  * @return vrai si la carte est presente dans la main, faux sinon.
  */
@@ -54,8 +54,8 @@ bool carte_existe(Main &main, Carte carte);
 
 /**
  * @brief Retrouve une carte par sa lettre dans la main du joueur
- * @param[?] main : la main du joueur
- * @param[?] lettre: lettre de la carte a chercher
+ * @param[in] main : la main du joueur
+ * @param[in] lettre: lettre de la carte a chercher
  * @param[out] carte : la carte a rechercher dans la main
  * @see debut, estFin, suivant, lire
  * @return vrai si la carte est trouvée, sinon faux.

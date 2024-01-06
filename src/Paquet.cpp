@@ -33,8 +33,8 @@ void remplir(Paquet &paquet) {
  * @see ajouter_carte, depiler
  */
 void distribuer(Paquet &paquet, Joueur &joueur) {
-    for (unsigned int i = 0; i < CARTES_PAR_JOUEUR; i++) {
-        ajouter_carte(joueur.main, sommet(paquet));
-        depiler(paquet);
-    }
+  for (unsigned int i = 0; i < CARTES_PAR_JOUEUR; i++) {
+    ajouter_carte(joueur.main, sommet(paquet));
+    depiler(paquet);
+  }
 }
