@@ -37,7 +37,13 @@ int main(int argc, char **argv) {
 
   Dictionnaire dictionnaire;
   const char chemin_dictionnaire[] = "ods4.txt";
-  initialiser(dictionnaire, chemin_dictionnaire);
+
+  if (!initialiser(dictionnaire, chemin_dictionnaire)) {
+    std::cout << "Impossible d'initialiser le dictionnaire" << std::endl;
+    for (unsigned int i = 0; (int)i < nombre_joueurs; i++)
+      detruire(joueurs[i].main.cartes);
+    return 1;
+  }
 
   Paquet paquet;
   Paquet exposees; // Les cartes exposées
