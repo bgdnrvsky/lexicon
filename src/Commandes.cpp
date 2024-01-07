@@ -10,14 +10,26 @@
 #include <cassert>
 #include <cstring>
 #include <iostream>
+#include <sstream>
 
-Status poser_le_mot(Main &main_de_joueur, const char mot[], Mots &mots) {
-  if (main_de_joueur.restantes < strlen(mot))
+Status poser(std::istringstream &is, Joueur &joueur, Mots &mots,
+             const Dictionnaire &dictionnaire) {
+  char mot[NOMBRE_LETTRES];
+
+  if (!(is >> mot)) {
+    return COMMANDE_INVALIDE;
+  }
+
+  if (!rechercher(dictionnaire, mot)) {
+    return MOT_INEXISTANT;
+  }
+
+  if (joueur.main.restantes < strlen(mot))
     return COMMANDE_INVALIDE;
 
   Occurrences counter_joueur;
   initialiser(counter_joueur);
-  compter(counter_joueur, main_de_joueur);
+  compter(counter_joueur, joueur.main);
 
   Occurrences counter_mot;
   initialiser(counter_mot);
@@ -40,12 +52,12 @@ Status poser_le_mot(Main &main_de_joueur, const char mot[], Mots &mots) {
 
     Carte carte;
     // On sait deja que la carte est presente dans la main de joueur
-    assert(retrouver_carte_par_lettre(main_de_joueur, lettre, carte));
+    assert(retrouver_carte_par_lettre(joueur.main, lettre, carte));
 
     inserer(nouveau_mot, carte);
     suivant(nouveau_mot);
 
-    retirer_carte(main_de_joueur);
+    retirer_carte(joueur.main);
 
     retirer_occurrence(counter_joueur, carte.lettre);
     retirer_occurrence(counter_mot, carte.lettre);
@@ -58,25 +70,17 @@ Status poser_le_mot(Main &main_de_joueur, const char mot[], Mots &mots) {
   return SUCCES;
 }
 
-Status poser(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire) {
-  char *mot = new char[NOMBRE_LETTRES];
-  std::scanf("%s", mot);
-
-  if (!rechercher(dictionnaire, mot)) {
-    delete[] mot;
-    return MOT_INEXISTANT;
-  }
-
-  // TODO: Extraire la fonction poser_le_mot a la fonction poser
-  Status status = poser_le_mot(joueur.main, mot, mots);
-
-  delete[] mot;
-  return status;
-}
-
-Status piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees) {
+Status piocher(std::istringstream &is, Paquet &paquet, Joueur &joueur,
+               Paquet &exposees) {
   char lettre;
-  std::cin >> lettre;
+  if (!(is >> lettre))
+    return COMMANDE_INVALIDE;
+
+  is >> std::ws;
+  if (!is.eof()) {
+    // Il reste encore des caracteres dans la commande
+    return COMMANDE_INVALIDE;
+  }
 
   // Vérifier que la carte est dans la main du joueur
   bool carte_trouvee = false;
@@ -90,8 +94,6 @@ Status piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees) {
   }
 
   if (!carte_trouvee) {
-    std::cout << "La carte " << lettre << " n'est pas dans votre main"
-              << std::endl;
     return COMMANDE_INVALIDE;
   }
 
@@ -108,21 +110,28 @@ Status piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees) {
   return SUCCES;
 }
 
-Status remplacer(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire) {
+Status remplacer(std::istringstream &is, Joueur &joueur, Mots &mots,
+                 const Dictionnaire &dictionnaire) {
   unsigned int mot_pos;
-  std::cin >> mot_pos;
+  if (!(is >> mot_pos))
+    return COMMANDE_INVALIDE;
 
-  char *nouveau_mot = new char[NOMBRE_LETTRES];
-  std::scanf("%s", nouveau_mot);
+  char nouveau_mot[NOMBRE_LETTRES];
+  if (!(is >> nouveau_mot)) {
+    return COMMANDE_INVALIDE;
+  }
+
+  is >> std::ws;
+  if (!is.eof()) {
+    // Il reste encore des caracteres dans la commande
+    return COMMANDE_INVALIDE;
+  }
 
   if (!rechercher(dictionnaire, nouveau_mot)) {
-    delete[] nouveau_mot;
     return MOT_INEXISTANT;
   }
 
   if (mot_pos > nombre_mots(mots)) {
-    std::cout << "Le mot n'existe pas" << std::endl;
-    delete[] nouveau_mot;
     return COMMANDE_INVALIDE;
   }
 
@@ -134,10 +143,6 @@ Status remplacer(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire) {
   debut(mot);
 
   if (strlen(nouveau_mot) != taille_mot(mot)) {
-    std::cout << "Le nouveau mot peut pas remplacer l'ancien car le nombre de "
-                 "lettres est different"
-              << std::endl;
-    delete[] nouveau_mot;
     return COMMANDE_INVALIDE;
   }
 
@@ -153,10 +158,6 @@ Status remplacer(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire) {
       // La lettre doit etre remplacee par une carte de la main de joueur
       if (nombre_occurrences(compter_joueur, nouvelle_lettre) == 0) {
         // On peut pas remplacer la lettre
-        std::cout << "Le nouveau mot ne peut pas etre construit a partir de "
-                     "cartes possedees par joueur"
-                  << std::endl;
-        delete[] nouveau_mot;
         return COMMANDE_INVALIDE;
       }
 
@@ -174,25 +175,32 @@ Status remplacer(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire) {
     suivant(mot);
   }
 
-  delete[] nouveau_mot;
   return SUCCES;
 }
 
-Status completer(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire) {
+Status completer(std::istringstream &is, Joueur &joueur, Mots &mots,
+                 const Dictionnaire &dictionnaire) {
   unsigned int mot_pos;
-  std::cin >> mot_pos;
+  if (!(is >> mot_pos)) {
+    return COMMANDE_INVALIDE;
+  }
 
-  char *nouveau_mot = new char[NOMBRE_LETTRES];
-  std::scanf("%s", nouveau_mot);
+  char nouveau_mot[NOMBRE_LETTRES];
+  if (!(is >> nouveau_mot)) {
+    return COMMANDE_INVALIDE;
+  }
+
+  is >> std::ws;
+  if (!is.eof()) {
+    // Il reste encore des caracteres dans la commande
+    return COMMANDE_INVALIDE;
+  }
 
   if (!rechercher(dictionnaire, nouveau_mot)) {
-    delete[] nouveau_mot;
     return MOT_INEXISTANT;
   }
 
   if (mot_pos > nombre_mots(mots)) {
-    std::cout << "Le mot n'existe pas" << std::endl;
-    delete[] nouveau_mot;
     return COMMANDE_INVALIDE;
   }
 
@@ -204,9 +212,6 @@ Status completer(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire) {
   debut(mot);
 
   if (strlen(nouveau_mot) <= taille_mot(mot)) {
-    std::cout << "Le nouveau mot doit avoir plus de lettres que l'ancien"
-              << std::endl;
-    delete[] nouveau_mot;
     return COMMANDE_INVALIDE;
   }
 
@@ -227,10 +232,6 @@ Status completer(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire) {
     }
 
     if (!carte_trouvee) {
-      std::cout << "Le nouveau mot doit preserver l'ordre des lettres de "
-                   "l'ancien"
-                << std::endl;
-      delete[] nouveau_mot;
       return COMMANDE_INVALIDE;
     }
   }
@@ -260,8 +261,6 @@ Status completer(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire) {
 
     // La lettre n'a pu etre contruite ni de la main de joueur ni de lettres du
     // mot deja present
-    std::cout << "Le mot peut pas etre consturuit" << std::endl;
-    delete[] nouveau_mot;
     return COMMANDE_INVALIDE;
   }
 
@@ -292,6 +291,5 @@ Status completer(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire) {
     suivant(mots);
   }
 
-  delete[] nouveau_mot;
   return SUCCES;
 }

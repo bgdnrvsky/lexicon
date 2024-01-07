@@ -6,8 +6,10 @@
 #include "libs/Vec.h"
 #include <climits>
 #include <iostream>
+#include <sstream>
 
 #define MAX_NOMBRE_JOUEURS 4
+#define COMMANDE_LEN_MAX 100
 
 int main(int argc, char **argv) {
   if (argc != 2) {
@@ -92,29 +94,35 @@ int main(int argc, char **argv) {
     // Saisie d'une commande
     std::cout << "> ";
 
-    char commande;
-    std::cin >> commande;
+    char commande[COMMANDE_LEN_MAX];
+
+    std::cin.getline(commande, COMMANDE_LEN_MAX);
+
+    std::istringstream is(commande);
+
+    char type_de_commande;
+    is >> type_de_commande;
 
     Status status_commande; // Si la saisie est valide
 
     // Executer la commande
-    switch (commande) {
+    switch (type_de_commande) {
     case 'T':
       // Talon
-      status_commande = piocher(paquet, joueur_courant, exposees);
+      status_commande = piocher(is, paquet, joueur_courant, exposees);
       break;
     case 'E':
       // Exposées
-      status_commande = piocher(exposees, joueur_courant, exposees);
+      status_commande = piocher(is, exposees, joueur_courant, exposees);
       break;
     case 'P':
-      status_commande = poser(joueur_courant, mots, dictionnaire);
+      status_commande = poser(is, joueur_courant, mots, dictionnaire);
       break;
     case 'R':
-      status_commande = remplacer(joueur_courant, mots, dictionnaire);
+      status_commande = remplacer(is, joueur_courant, mots, dictionnaire);
       break;
     case 'C':
-      status_commande = completer(joueur_courant, mots, dictionnaire);
+      status_commande = completer(is, joueur_courant, mots, dictionnaire);
       break;
     default:
       status_commande = COMMANDE_INVALIDE;

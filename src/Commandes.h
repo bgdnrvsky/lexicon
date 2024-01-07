@@ -18,7 +18,8 @@ enum Status { COMMANDE_INVALIDE, MOT_INEXISTANT, SUCCES };
  * @see debut, estFin, suivant, lire, sommet, depiler, supprimer, empiler et
  * inserer
  */
-Status piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees);
+Status piocher(std::istringstream &is, Paquet &paquet, Joueur &joueur,
+               Paquet &exposees);
 
 /**
  * @brief Permet à un joueur de poser un mot sur la chaine de mots poses
@@ -28,7 +29,8 @@ Status piocher(Paquet &paquet, Joueur &joueur, Paquet &exposees);
  * @see debut, estFin, suivant, lire, sommet, depiler, supprimer, empiler et
  * inserer
  */
-Status poser(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire);
+Status poser(std::istringstream &is, Joueur &joueur, Mots &mots,
+             const Dictionnaire &dictionnaire);
 
 /**
  * @brief Remplace un mot pose par un nouveau mot construit a partir de celui-ci
@@ -36,7 +38,8 @@ Status poser(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire);
  * @param[in,out] joueur: le joueur qui effectue le remplacement
  * @param[in,out] mots: la chaine de mots poses ou se trouve le mot a remplacer
  */
-Status remplacer(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire);
+Status remplacer(std::istringstream &is, Joueur &joueur, Mots &mots,
+                 const Dictionnaire &dictionnaire);
 
 /**
  * @brief Complète un mot pose par un nouveau mot construit a partir de celui-ci
@@ -44,6 +47,7 @@ Status remplacer(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire);
  * @param[in,out] joueur : le joueur qui complete le mot
  * @param[in,out] mots: la chaine de mots poses ou se trouve le mot a completer
  */
-Status completer(Joueur &joueur, Mots &mots, const Dictionnaire &dictionnaire);
+Status completer(std::istringstream &is, Joueur &joueur, Mots &mots,
+                 const Dictionnaire &dictionnaire);
 
 #endif
