@@ -81,6 +81,8 @@ int main(int argc, char **argv) {
 
     if (joueur_courant.est_perdant) {
       // Ce joueur joue plus
+      tour++;
+      joueur_id = (joueur_id + 1) % nombre_joueurs;
       continue;
     }
 
