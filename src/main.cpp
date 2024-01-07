@@ -66,8 +66,12 @@ int main(int argc, char **argv) {
       melanger(paquet.tab, CARTES_PAR_PAQUET);
 
       // Distribuer les cartes aux joueurs
-      for (unsigned int i = 0; i < (unsigned int)nombre_joueurs; i++)
-        distribuer(paquet, joueurs[i]);
+      for (unsigned int i = 0; i < (unsigned int)nombre_joueurs; i++) {
+        Joueur &joueur = joueurs[i];
+
+        if (!joueur.est_perdant)
+          distribuer(paquet, joueur);
+      }
 
       // Exposer la première carte du paquet
       empiler(exposees, sommet(paquet));
