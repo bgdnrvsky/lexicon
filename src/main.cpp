@@ -9,7 +9,7 @@
 #include <sstream>
 
 #define MAX_NOMBRE_JOUEURS 4
-#define COMMANDE_LEN_MAX 100
+#define COMMANDE_LEN_MAX 50
 
 int main(int argc, char **argv) {
   if (argc != 2) {
