@@ -20,6 +20,12 @@ Status poser(std::istringstream &is, Joueur &joueur, Mots &mots,
     return COMMANDE_INVALIDE;
   }
 
+  is >> std::ws;
+  if (!is.eof()) {
+    // Il reste encore des caracteres dans la commande
+    return COMMANDE_INVALIDE;
+  }
+
   if (!rechercher(dictionnaire, mot)) {
     return MOT_INEXISTANT;
   }
