@@ -1,3 +1,6 @@
 exemple.cpp
 html/
+tests/bins/
+tests/objects/
+tests/test_dict.txt
 lexicon
