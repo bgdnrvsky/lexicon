@@ -156,6 +156,11 @@ int main(int argc, char **argv) {
 
       for (unsigned int i = 0; i < (unsigned int)nombre_joueurs; i++) {
         Joueur &joueur = joueurs[i];
+
+        // Pas besoin de recalculer le score d'un joueur perdant
+        if (joueur.est_perdant)
+          continue;
+
         joueur.score += calculer_score(joueur);
 
         if (joueur.score >= 100) {
