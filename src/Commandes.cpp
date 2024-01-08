@@ -16,19 +16,16 @@ Status poser(std::istringstream &is, Joueur &joueur, Mots &mots,
              const Dictionnaire &dictionnaire) {
   char mot[NOMBRE_LETTRES];
 
-  if (!(is >> mot)) {
+  if (!(is >> mot))
     return COMMANDE_INVALIDE;
-  }
 
   is >> std::ws;
-  if (!is.eof()) {
+  if (!is.eof())
     // Il reste encore des caracteres dans la commande
     return COMMANDE_INVALIDE;
-  }
 
-  if (!rechercher(dictionnaire, mot)) {
+  if (!rechercher(dictionnaire, mot))
     return MOT_INEXISTANT;
-  }
 
   if (joueur.main.restantes < strlen(mot))
     return COMMANDE_INVALIDE;
@@ -83,10 +80,9 @@ Status piocher(std::istringstream &is, Paquet &paquet, Joueur &joueur,
     return COMMANDE_INVALIDE;
 
   is >> std::ws;
-  if (!is.eof()) {
+  if (!is.eof())
     // Il reste encore des caracteres dans la commande
     return COMMANDE_INVALIDE;
-  }
 
   // Vérifier que la carte est dans la main du joueur
   bool carte_trouvee = false;
@@ -99,9 +95,8 @@ Status piocher(std::istringstream &is, Paquet &paquet, Joueur &joueur,
     }
   }
 
-  if (!carte_trouvee) {
+  if (!carte_trouvee)
     return COMMANDE_INVALIDE;
-  }
 
   Carte carte_prise = sommet(paquet);
   depiler(paquet);
@@ -123,24 +118,21 @@ Status remplacer(std::istringstream &is, Joueur &joueur, Mots &mots,
     return COMMANDE_INVALIDE;
 
   char nouveau_mot[NOMBRE_LETTRES];
-  if (!(is >> nouveau_mot)) {
+  if (!(is >> nouveau_mot))
     return COMMANDE_INVALIDE;
-  }
 
   is >> std::ws;
-  if (!is.eof()) {
+  if (!is.eof())
     // Il reste encore des caracteres dans la commande
     return COMMANDE_INVALIDE;
-  }
 
-  if (!rechercher(dictionnaire, nouveau_mot)) {
+  if (!rechercher(dictionnaire, nouveau_mot))
     return MOT_INEXISTANT;
-  }
 
-  if (mot_pos > nombre_mots(mots)) {
+  if (mot_pos > nombre_mots(mots))
     return COMMANDE_INVALIDE;
-  }
 
+  // Se deplacer vers le mot qu'on veut
   for (debut(mots); mot_pos > 1; suivant_mot(mots))
     mot_pos--;
 
@@ -148,9 +140,8 @@ Status remplacer(std::istringstream &is, Joueur &joueur, Mots &mots,
   lire_mot(mots, mot);
   debut(mot);
 
-  if (strlen(nouveau_mot) != taille_mot(mot)) {
+  if (strlen(nouveau_mot) != taille_mot(mot))
     return COMMANDE_INVALIDE;
-  }
 
   Occurrences compter_joueur;
   initialiser(compter_joueur);
@@ -162,20 +153,19 @@ Status remplacer(std::istringstream &is, Joueur &joueur, Mots &mots,
 
     if (nouvelle_lettre != lettre_origin.lettre) {
       // La lettre doit etre remplacee par une carte de la main de joueur
-      if (nombre_occurrences(compter_joueur, nouvelle_lettre) == 0) {
+      if (nombre_occurrences(compter_joueur, nouvelle_lettre) == 0)
         // On peut pas remplacer la lettre
         return COMMANDE_INVALIDE;
-      }
 
-      Carte nouvelle_carte;
+      Carte carte_de_joueur;
       assert(retrouver_carte_par_lettre(
           joueur.main, nouvelle_lettre,
-          nouvelle_carte)); // On sait que la carte est presente
+          carte_de_joueur)); // On sait que la carte est presente
 
-      retirer_carte(joueur.main);
+      ecrire(joueur.main.cartes, nouvelle_carte(lettre_origin.lettre));
       retirer_occurrence(compter_joueur, nouvelle_lettre);
 
-      ecrire(mot, nouvelle_carte);
+      ecrire(mot, carte_de_joueur);
     }
 
     suivant(mot);
@@ -187,29 +177,25 @@ Status remplacer(std::istringstream &is, Joueur &joueur, Mots &mots,
 Status completer(std::istringstream &is, Joueur &joueur, Mots &mots,
                  const Dictionnaire &dictionnaire) {
   unsigned int mot_pos;
-  if (!(is >> mot_pos)) {
+  if (!(is >> mot_pos))
     return COMMANDE_INVALIDE;
-  }
 
   char nouveau_mot[NOMBRE_LETTRES];
-  if (!(is >> nouveau_mot)) {
+  if (!(is >> nouveau_mot))
     return COMMANDE_INVALIDE;
-  }
 
   is >> std::ws;
-  if (!is.eof()) {
+  if (!is.eof())
     // Il reste encore des caracteres dans la commande
     return COMMANDE_INVALIDE;
-  }
 
-  if (!rechercher(dictionnaire, nouveau_mot)) {
+  if (!rechercher(dictionnaire, nouveau_mot))
     return MOT_INEXISTANT;
-  }
 
-  if (mot_pos > nombre_mots(mots)) {
+  if (mot_pos > nombre_mots(mots))
     return COMMANDE_INVALIDE;
-  }
 
+  // Se deplacer vers le mot qu'on veut
   for (debut(mots); mot_pos > 1; suivant_mot(mots))
     mot_pos--;
 
@@ -217,9 +203,8 @@ Status completer(std::istringstream &is, Joueur &joueur, Mots &mots,
   lire_mot(mots, mot);
   debut(mot);
 
-  if (strlen(nouveau_mot) <= taille_mot(mot)) {
+  if (strlen(nouveau_mot) <= taille_mot(mot))
     return COMMANDE_INVALIDE;
-  }
 
   // Verifier que le nouveau mot preserve l'ordre des lettres de l'ancien
   unsigned int bordure_gauche =
@@ -237,9 +222,8 @@ Status completer(std::istringstream &is, Joueur &joueur, Mots &mots,
       }
     }
 
-    if (!carte_trouvee) {
+    if (!carte_trouvee)
       return COMMANDE_INVALIDE;
-    }
   }
 
   // Verifier que le nouveau mot peut etre construit a partir de la main de
