@@ -17,7 +17,7 @@ test: build_tests
 	./tests/bins/test_initialisiation_dictionnaire
 	./tests/bins/recherche_dictionnaire
 
-build_tests: prepare_tests objects
+build_tests: clean prepare_tests objects
 	$(CC) tests/test.cpp tests/initialisiation_dictionnaire.cpp tests/objects/*.o -o tests/bins/test_initialisiation_dictionnaire
 	$(CC) tests/test.cpp tests/recherche_dictionnaire.cpp tests/objects/*.o -o tests/bins/recherche_dictionnaire
 
