@@ -172,29 +172,85 @@ void test_remplacer() {
   initialiser(mots);
 
   Carte t = nouvelle_carte('T'), e = nouvelle_carte('E'),
-        l = nouvelle_carte('L');
+        l = nouvelle_carte('L'), g = nouvelle_carte('G');
 
   ajouter_carte(j1.main, t);
   ajouter_carte(j1.main, e);
 
   ajouter_carte(j2.main, l);
+	ajouter_carte(j2.main,g);
 
   std::istringstream mot_orig("TE");
   poser(mot_orig, j1, mots, d);
 
   ASSERT_EQ(j1.main.restantes, 0);
 
-  std::istringstream mot_valide_remplacant("1 LE");
-  ASSERT_EQ(remplacer(mot_valide_remplacant, j2, mots, d), SUCCES);
+	//Cas 1: le mot peut etre remplace sans probleme
+  std::istringstream mot_valide("1 LE");
+  ASSERT_EQ(remplacer(mot_valide, j2, mots, d), SUCCES);
 
-  ASSERT_EQ(j2.main.restantes, 1);
+	//On verifie que le joueur a bien recupere la carte qu'il a remplace
+	ASSERT(carte_existe(j2.main,t));
+  ASSERT_EQ(j2.main.restantes, 2);
 
-  std::istringstream mot_invalide_remplacant("1 ME");
-  ASSERT_EQ(remplacer(mot_invalide_remplacant, j2, mots, d), COMMANDE_INVALIDE);
+	//Cas 2: le mot ne peut pas etre remplace, le joueur n'a pas la lettre
+  std::istringstream mot_invalide("1 ME");
+  ASSERT_EQ(remplacer(mot_invalide, j2, mots, d), COMMANDE_INVALIDE);
+
+	//Cas 3: le mot de remplacement n'existe pas
+	std::istringstream mot_inexistant("1 GE");
+	ASSERT_EQ(remplacer(mot_inexistant, j2, mots, d), MOT_INEXISTANT);
+
+	//Cas 4: le mot de remplacement est plus long que le mot d'origine
+	std::istringstream mot_long("1 TES");
+	ASSERT_EQ(remplacer(mot_long, j2, mots, d), COMMANDE_INVALIDE);
 
   detruire(j1.main);
   detruire(j2.main);
+	detruire(mots);
   EXIT
+}
+
+void test_completer(){
+	INFO;
+
+	Joueur j1;
+	initialiser(j1, 1);
+
+	Joueur j2;
+	initialiser(j2, 2);
+
+	Dictionnaire dico;
+	initialiser(dico, "ods4.txt");
+
+	Mots mots;
+	initialiser(mots);
+
+	Carte r = nouvelle_carte('R'), o = nouvelle_carte('O'), i = nouvelle_carte('I'),
+				t = nouvelle_carte('T'), e = nouvelle_carte('E'), d = nouvelle_carte('D'),
+				s= nouvelle_carte('S'),w = nouvelle_carte('W');
+
+	ajouter_carte(j1.main,r);
+	ajouter_carte(j1.main,o);
+	ajouter_carte(j1.main,i);
+	ajouter_carte(j1.main,w);
+
+	ajouter_carte(j2.main,t);
+	ajouter_carte(j2.main,e);
+	ajouter_carte(j2.main,d);
+	ajouter_carte(j2.main,s);
+
+	std::istringstream mot_orig("ROI");
+	poser(mot_orig, j1, mots, dico);
+
+	std::istringstream mot_complete("1 DROITE");
+	ASSERT_EQ(remplacer(mot_complete,j2,mots,dico),SUCCES);
+	ASSERT_EQ(j2.main.restantes,1);
+
+	detruire(j1.main);
+	detruire(j2.main);
+	detruire(mots);
+	EXIT
 }
 
 int main(void) {
@@ -206,4 +262,5 @@ int main(void) {
   test_joueur();
   test_poser();
   test_remplacer();
+	test_completer();
 }
