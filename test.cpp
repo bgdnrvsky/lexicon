@@ -1,6 +1,7 @@
 #include "src/Dictionnaire.h"
 #include "src/Hand.h"
 #include "src/Joueur.h"
+#include "src/Commandes.h"
 #include <iostream>
 
 const char TEXTE_VERT[] = "\x1b[32;49m";
@@ -18,8 +19,8 @@ const char TEXTE_RESET[] = "\x1b[0m";
     return;                                                                    \
   }
 
-#define ASSERT_EQ(expected, actual)                                            \
-  if (expected != actual) {                                                    \
+#define ASSERT_EQ(actual, expected)                                            \
+  if (actual != expected) {                                                    \
     std::cerr << std::endl                                                     \
               << POSITION << ": " << TEXTE_RESET << TEXTE_ITALIQUE << expected \
               << " != " << actual << std::endl;                                \
@@ -31,7 +32,7 @@ const char TEXTE_RESET[] = "\x1b[0m";
 #define INFO                                                                   \
   std::cout << "\tTest " << TEXTE_ITALIQUE << __FUNCTION__ << TEXTE_RESET
 
-void initalisation_dictionnare() {
+void initalisation_dictionnaire() {
   INFO;
 
   Dictionnaire d;
@@ -107,11 +108,36 @@ void test_joueur() {
   SUCCES
 }
 
+void test_poser(){
+	INFO;
+
+	Joueur j1;
+	initialiser(j1, 1);
+	Dictionnaire d;
+	initialiser(d, "ods4.txt");
+	Mots mots;
+
+	Carte g = nouvelle_carte('G'), i = nouvelle_carte('I'), n = nouvelle_carte('N');
+	ajouter_carte(j1.main,g);
+	ajouter_carte(j1.main,i);
+	ajouter_carte(j1.main,n);
+
+	char mot_valide[] ="GIN";
+	std::istringstream mot_joue(mot_valide);
+	Status result =poser(mot_joue,j1,mots,d);
+	ASSERT_EQ(result,SUCCES);
+
+	detruire(j1.main);
+	SUCCES
+}
+
+
 int main(void) {
   std::cout << TEXTE_GRAS << "Lancement des tests" << TEXTE_RESET << std::endl;
 
-  initalisation_dictionnare();
+  initalisation_dictionnaire();
   manipulation_cartes();
   recherche_dictionnaire();
   test_joueur();
+	test_poser();
 }
