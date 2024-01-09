@@ -289,13 +289,13 @@ void test_piocher(){
 	ajouter_carte(j.main,e);
 	ajouter_carte(j.main,f);
 
-	Carte lettre_jetee ='E';
+	char lettre_jetee ='E';
 	std::istringstream carte_jetee("E");
 	ASSERT_EQ(piocher(carte_jetee,paquet,j,exposees), SUCCES);
 	ASSERT_EQ(sommet(exposees).lettre,lettre_jetee);
 
-	//std::istringstream carte_absente('V');
-	//ASSERT_EQ(piocher(carte_jetee,paquet,j,exposees), COMMANDE_INVALIDE);
+	std::istringstream carte_absente('V');
+	ASSERT_EQ(piocher(carte_jetee,paquet,j,exposees), COMMANDE_INVALIDE);
 
 	detruire(j.main);
 	EXIT
