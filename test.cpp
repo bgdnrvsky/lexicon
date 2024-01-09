@@ -243,9 +243,18 @@ void test_completer(){
 	std::istringstream mot_orig("ROI");
 	poser(mot_orig, j1, mots, dico);
 
+	//Cas 1: le mot peut etre complete sans probleme
 	std::istringstream mot_complete("1 DROITE");
-	ASSERT_EQ(remplacer(mot_complete,j2,mots,dico),SUCCES);
+	ASSERT_EQ(completer(mot_complete,j2,mots,dico),SUCCES);
 	ASSERT_EQ(j2.main.restantes,1);
+
+	//Cas 2: le mot existe mais ne respecte pas l'ordre du mot d'origine
+	std::istringstream mot_invalide("1 SOIR");
+	ASSERT_EQ(completer(mot_invalide,j2,mots,dico),COMMANDE_INVALIDE);
+
+	//Cas 3: le mot n'existe pas
+	std::istringstream mot_inexistant("1 SROI");
+	ASSERT_EQ(completer(mot_inexistant,j2,mots,dico),MOT_INEXISTANT);
 
 	detruire(j1.main);
 	detruire(j2.main);
