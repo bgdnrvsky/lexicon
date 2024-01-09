@@ -12,7 +12,7 @@ build:
 doc:
 	doxygen Doxyfile
 
-test:
+test: clean
 	$(CC) $(FLAGS) test.cpp $(LIBS) $(FILES) -o test
 	./test
 
