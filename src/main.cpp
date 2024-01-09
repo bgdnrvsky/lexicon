@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
       joueur_id = 0;
 
       initialiser(paquet, CARTES_PAR_PAQUET);
-      initialiser(exposees, CARTES_PAR_PAQUET);
+      initialiser(exposees, 1);
       initialiser(mots);
 
       remplir(paquet);
