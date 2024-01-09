@@ -289,13 +289,18 @@ void test_piocher(){
 	ajouter_carte(j.main,e);
 	ajouter_carte(j.main,f);
 
+	//Cas 1: on jette une carte valide ( que le joueur a dans sa main)
 	char lettre_jetee ='E';
 	std::istringstream carte_jetee("E");
 	ASSERT_EQ(piocher(carte_jetee,paquet,j,exposees), SUCCES);
+
+	//On verifie que la carte jetee devient bien le sommet du paquet de cartes exposees
 	ASSERT_EQ(sommet(exposees).lettre,lettre_jetee);
 
+	//Cas 2: on jette une carte que le joueur n'a pas
 	std::istringstream carte_absente('V');
-	ASSERT_EQ(piocher(carte_jetee,paquet,j,exposees), COMMANDE_INVALIDE);
+	ASSERT_EQ(piocher(carte_absente,paquet,j,exposees), COMMANDE_INVALIDE);
+
 
 	detruire(j.main);
 	EXIT
