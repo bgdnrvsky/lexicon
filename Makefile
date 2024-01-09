@@ -17,11 +17,13 @@ test: build_tests
 	./tests/bins/test_initialisiation_dictionnaire
 	./tests/bins/recherche_dictionnaire
 	./tests/bins/manipulation_cartes_main
+	./tests/bins/test_joueur
 
 build_tests: clean prepare_tests objects
 	$(CC) $(FLAGS) tests/test.cpp tests/initialisiation_dictionnaire.cpp tests/objects/*.o -o tests/bins/test_initialisiation_dictionnaire
 	$(CC) $(FLAGS) tests/test.cpp tests/recherche_dictionnaire.cpp tests/objects/*.o -o tests/bins/recherche_dictionnaire
 	$(CC) $(FLAGS) tests/test.cpp tests/manipulation_cartes_main.cpp tests/objects/*.o -o tests/bins/manipulation_cartes_main
+	$(CC) $(FLAGS) tests/test.cpp tests/test_joueur.cpp tests/objects/*.o -o tests/bins/test_joueur
 
 prepare_tests:
 	mkdir tests/objects
