@@ -1,7 +1,7 @@
+#include "src/Commandes.h"
 #include "src/Dictionnaire.h"
 #include "src/Hand.h"
 #include "src/Joueur.h"
-#include "src/Commandes.h"
 #include <iostream>
 #include <sstream>
 
@@ -28,7 +28,7 @@ const char TEXTE_RESET[] = "\x1b[0m";
     return;                                                                    \
   }
 
-#define EXIT                                                                 \
+#define EXIT                                                                   \
   std::cout << " - " << TEXTE_VERT << "Succes" << TEXTE_RESET << std::endl;
 #define INFO                                                                   \
   std::cout << "\tTest " << TEXTE_ITALIQUE << __FUNCTION__ << TEXTE_RESET
@@ -109,83 +109,92 @@ void test_joueur() {
   EXIT
 }
 
-void test_poser(){
-	INFO;
+void test_poser() {
+  INFO;
 
-	Joueur j;
-	initialiser(j, 1);
-	Dictionnaire d;
-	initialiser(d, "ods4.txt");
-	Mots mots;
+  Joueur j;
+  initialiser(j, 1);
 
-	Carte g = nouvelle_carte('G'), i = nouvelle_carte('I'), n = nouvelle_carte('N');
-	ajouter_carte(j.main,g);
-	ajouter_carte(j.main,i);
-	ajouter_carte(j.main,n);
+  Dictionnaire d;
+  initialiser(d, "ods4.txt");
 
-	//Cas 1: le mot peut etre pose sans probleme
-	char mot_valide[] ="GIN";
-	std::istringstream mot_joue_valide(mot_valide);
-	Status result_valide =poser(mot_joue_valide,j,mots,d);
-	ASSERT_EQ(result_valide,SUCCES);
+  Mots mots;
+  initialiser(mots);
 
-	Carte r = nouvelle_carte('R'), b = nouvelle_carte('B'), e = nouvelle_carte('E');
-	ajouter_carte(j.main,r);
-	ajouter_carte(j.main,b);
-	ajouter_carte(j.main,e);
+  Carte g = nouvelle_carte('G'), i = nouvelle_carte('I'),
+        n = nouvelle_carte('N');
 
-	//Cas 2: Le mot n'existe pas
-	char mot_inexistant[] ="REB";
-	std::istringstream mot_joue_inexistant(mot_inexistant);
-	Status result_invalide =poser(mot_joue_inexistant,j,mots,d);
-	ASSERT_EQ(result_invalide,MOT_INEXISTANT);
+  ajouter_carte(j.main, g);
+  ajouter_carte(j.main, i);
+  ajouter_carte(j.main, n);
 
-	//Cas 3: le joueur ne peut pas construire le mot
-	char mot_invalide[] ="BARRE";
-	std::istringstream mot_joue_invalide(mot_invalide);
-	Status result_invalide2 =poser(mot_joue_invalide,j,mots,d);
-	ASSERT_EQ(result_invalide2,COMMANDE_INVALIDE);
+  // Cas 1: le mot peut etre pose sans probleme
+  std::istringstream mot_valide("GIN");
 
-	detruire(j.main);
-	EXIT
+  ASSERT_EQ(poser(mot_valide, j, mots, d), SUCCES);
+  ASSERT_EQ(j.main.restantes, 0);
+
+  Carte r = nouvelle_carte('R'), b = nouvelle_carte('B'),
+        e = nouvelle_carte('E');
+
+  ajouter_carte(j.main, r);
+  ajouter_carte(j.main, b);
+  ajouter_carte(j.main, e);
+
+  // Cas 2: Le mot n'existe pas
+  std::istringstream mot_inexistant("REB");
+
+  ASSERT_EQ(poser(mot_inexistant, j, mots, d), MOT_INEXISTANT);
+  ASSERT_EQ(j.main.restantes, 3);
+
+  // Cas 3: le joueur ne peut pas construire le mot
+  std::istringstream mot_joue_invalide("BARRE");
+
+  ASSERT_EQ(poser(mot_joue_invalide, j, mots, d), COMMANDE_INVALIDE);
+
+  detruire(j.main);
+  EXIT
 }
 
-void test_remplacer(){
-	INFO;
+void test_remplacer() {
+  INFO;
 
-	Joueur j;
-	initialiser(j, 1);
-	Joueur j2;
-	initialiser(j2,2);
-	Dictionnaire d;
-	initialiser(d, "ods4.txt");
-	Mots mots;
+  Joueur j1;
+  initialiser(j1, 1);
 
-	Carte t = nouvelle_carte('T'), e = nouvelle_carte('E'), l = nouvelle_carte('L');
-	ajouter_carte(j.main,t);
-	ajouter_carte(j.main,e);
-	ajouter_carte(j2.main,l);
+  Joueur j2;
+  initialiser(j2, 2);
 
-	char mot_j[]="TE";
-	std::istringstream mot1(mot_j);
-	poser(mot1,j,mots,d);
+  Dictionnaire d;
+  initialiser(d, "ods4.txt");
 
+  Mots mots;
+  initialiser(mots);
 
-	//Cas 1: le mot est bien remplace
-	char mot_j2_valide[]=" 1 LE";
-	std::istringstream mot_valide_remplacant(mot_j2);
-	ASSERT_EQ(remplacer(mot_valide_remplacant,j2,mots,d),SUCCES);
+  Carte t = nouvelle_carte('T'), e = nouvelle_carte('E'),
+        l = nouvelle_carte('L');
 
-	/*Cas 2: le joueur n'a pas la lettre: commande invalide
-	char mot_j2_invalide[]="1 ME";
-	std::istringstream mot_invalide_remplacant(mot_j2);
-	ASSERT_EQ(remplacer(mot_invalide_remplacant,j2,mots,d),COMMANDE_INVALIDE);
-*/
+  ajouter_carte(j1.main, t);
+  ajouter_carte(j1.main, e);
 
-	detruire(j.main);
-	detruire(j2.main);
-	EXIT
+  ajouter_carte(j2.main, l);
 
+  std::istringstream mot_orig("TE");
+  poser(mot_orig, j1, mots, d);
+
+  ASSERT_EQ(j1.main.restantes, 0);
+
+  std::istringstream mot_valide_remplacant("1 LE");
+  ASSERT_EQ(remplacer(mot_valide_remplacant, j2, mots, d), SUCCES);
+
+  ASSERT_EQ(j2.main.restantes, 1);
+
+  std::istringstream mot_invalide_remplacant("1 ME");
+  ASSERT_EQ(remplacer(mot_invalide_remplacant, j2, mots, d), COMMANDE_INVALIDE);
+
+  detruire(j1.main);
+  detruire(j2.main);
+  EXIT
 }
 
 int main(void) {
@@ -195,6 +204,6 @@ int main(void) {
   manipulation_cartes();
   recherche_dictionnaire();
   test_joueur();
-	test_poser();
-	test_remplacer();
+  test_poser();
+  test_remplacer();
 }
