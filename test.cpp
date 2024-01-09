@@ -214,97 +214,97 @@ void test_remplacer() {
 }
 
 void test_completer() {
-	INFO;
+  INFO;
 
-	Joueur j1;
-	initialiser(j1, 1);
+  Joueur j1;
+  initialiser(j1, 1);
 
-	Joueur j2;
-	initialiser(j2, 2);
+  Joueur j2;
+  initialiser(j2, 2);
 
-	Dictionnaire dico;
-	initialiser(dico, "ods4.txt");
+  Dictionnaire dico;
+  initialiser(dico, "ods4.txt");
 
-	Mots mots;
-	initialiser(mots);
+  Mots mots;
+  initialiser(mots);
 
-	Carte r = nouvelle_carte('R'), o = nouvelle_carte('O'),
-					i = nouvelle_carte('I'), t = nouvelle_carte('T'),
-					e = nouvelle_carte('E'), d = nouvelle_carte('D'),
-					s = nouvelle_carte('S'), w = nouvelle_carte('W');
+  Carte r = nouvelle_carte('R'), o = nouvelle_carte('O'),
+        i = nouvelle_carte('I'), t = nouvelle_carte('T'),
+        e = nouvelle_carte('E'), d = nouvelle_carte('D'),
+        s = nouvelle_carte('S'), w = nouvelle_carte('W');
 
-	ajouter_carte(j1.main, r);
-	ajouter_carte(j1.main, o);
-	ajouter_carte(j1.main, i);
-	ajouter_carte(j1.main, w);
+  ajouter_carte(j1.main, r);
+  ajouter_carte(j1.main, o);
+  ajouter_carte(j1.main, i);
+  ajouter_carte(j1.main, w);
 
-	ajouter_carte(j2.main, t);
-	ajouter_carte(j2.main, e);
-	ajouter_carte(j2.main, d);
-	ajouter_carte(j2.main, s);
+  ajouter_carte(j2.main, t);
+  ajouter_carte(j2.main, e);
+  ajouter_carte(j2.main, d);
+  ajouter_carte(j2.main, s);
 
-	std::istringstream mot_orig("ROI");
-	poser(mot_orig, j1, mots, dico);
+  std::istringstream mot_orig("ROI");
+  poser(mot_orig, j1, mots, dico);
 
-	// Cas 1: le mot peut etre complete sans probleme
-	std::istringstream mot_complete("1 DROITE");
-	ASSERT_EQ(completer(mot_complete, j2, mots, dico), SUCCES);
-	ASSERT_EQ(j2.main.restantes, 1);
+  // Cas 1: le mot peut etre complete sans probleme
+  std::istringstream mot_complete("1 DROITE");
+  ASSERT_EQ(completer(mot_complete, j2, mots, dico), SUCCES);
+  ASSERT_EQ(j2.main.restantes, 1);
 
-	// Cas 2: le mot existe mais ne respecte pas l'ordre du mot d'origine
-	std::istringstream mot_invalide("1 SOIR");
-	ASSERT_EQ(completer(mot_invalide, j2, mots, dico), COMMANDE_INVALIDE);
+  // Cas 2: le mot existe mais ne respecte pas l'ordre du mot d'origine
+  std::istringstream mot_invalide("1 SOIR");
+  ASSERT_EQ(completer(mot_invalide, j2, mots, dico), COMMANDE_INVALIDE);
 
-	// Cas 3: le mot n'existe pas
-	std::istringstream mot_inexistant("1 SROI");
-	ASSERT_EQ(completer(mot_inexistant, j2, mots, dico), MOT_INEXISTANT);
+  // Cas 3: le mot n'existe pas
+  std::istringstream mot_inexistant("1 SROI");
+  ASSERT_EQ(completer(mot_inexistant, j2, mots, dico), MOT_INEXISTANT);
 
-	detruire(j1.main);
-	detruire(j2.main);
-	detruire(mots);
-	EXIT
+  detruire(j1.main);
+  detruire(j2.main);
+  detruire(mots);
+  EXIT
 }
 
-void test_piocher(){
-	INFO;
+void test_piocher() {
+  INFO;
 
-	Carte a = nouvelle_carte('A'), b = nouvelle_carte('B'), c = nouvelle_carte('C'),
-				d = nouvelle_carte('D'), e = nouvelle_carte('E'), f = nouvelle_carte(('F'));
+  Carte a = nouvelle_carte('A'), b = nouvelle_carte('B'),
+        c = nouvelle_carte('C'), d = nouvelle_carte('D'),
+        e = nouvelle_carte('E'), f = nouvelle_carte(('F'));
 
-	Paquet paquet;
-	initialiser(paquet, CARTES_PAR_PAQUET);
-	empiler(paquet,a);
-	empiler(paquet,b);
-	empiler(paquet,c);
-	empiler(paquet,d);
+  Paquet paquet;
+  initialiser(paquet, CARTES_PAR_PAQUET);
+  empiler(paquet, a);
+  empiler(paquet, b);
+  empiler(paquet, c);
+  empiler(paquet, d);
 
-	Paquet exposees;
-	initialiser(exposees, 1);
-	empiler(exposees, sommet(paquet));
-	depiler(paquet);
+  Paquet exposees;
+  initialiser(exposees, 1);
+  empiler(exposees, sommet(paquet));
+  depiler(paquet);
 
-	Joueur j;
-	initialiser(j, 1);
+  Joueur j;
+  initialiser(j, 1);
 
-	ajouter_carte(j.main,e);
-	ajouter_carte(j.main,f);
+  ajouter_carte(j.main, e);
+  ajouter_carte(j.main, f);
 
-	//Cas 1: on jette une carte valide ( que le joueur a dans sa main)
-	char lettre_jetee ='E';
-	std::istringstream carte_jetee("E");
-	ASSERT_EQ(piocher(carte_jetee,paquet,j,exposees), SUCCES);
+  // Cas 1: on jette une carte valide ( que le joueur a dans sa main)
+  char lettre_jetee = 'E';
+  std::istringstream carte_jetee("E");
+  ASSERT_EQ(piocher(carte_jetee, paquet, j, exposees), SUCCES);
 
-	//On verifie que la carte jetee devient bien le sommet du paquet de cartes exposees
-	ASSERT_EQ(sommet(exposees).lettre,lettre_jetee);
+  // On verifie que la carte jetee devient bien le sommet du paquet de cartes
+  // exposees
+  ASSERT_EQ(sommet(exposees).lettre, lettre_jetee);
 
-	//Cas 2: on jette une carte que le joueur n'a pas
-	std::istringstream carte_absente('V');
-	ASSERT_EQ(piocher(carte_absente,paquet,j,exposees), COMMANDE_INVALIDE);
+  // Cas 2: on jette une carte que le joueur n'a pas
+  std::istringstream carte_absente('V');
+  ASSERT_EQ(piocher(carte_absente, paquet, j, exposees), COMMANDE_INVALIDE);
 
-
-	detruire(j.main);
-	EXIT
-
+  detruire(j.main);
+  EXIT
 }
 int main(void) {
   std::cout << TEXTE_GRAS << "Lancement des tests" << TEXTE_RESET << std::endl;
@@ -316,5 +316,5 @@ int main(void) {
   test_poser();
   test_remplacer();
   test_completer();
-	test_piocher();
+  test_piocher();
 }
