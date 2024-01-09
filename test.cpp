@@ -300,7 +300,7 @@ void test_piocher() {
   ASSERT_EQ(sommet(exposees).lettre, lettre_jetee);
 
   // Cas 2: on jette une carte que le joueur n'a pas
-  std::istringstream carte_absente('V');
+  std::istringstream carte_absente("V");
   ASSERT_EQ(piocher(carte_absente, paquet, j, exposees), COMMANDE_INVALIDE);
 
   detruire(j.main);
