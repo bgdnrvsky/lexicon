@@ -11,16 +11,16 @@ const char TEXTE_ITALIQUE[] = "\x1b[3m";
 const char TEXTE_GRAS[] = "\x1b[1m";
 const char TEXTE_RESET[] = "\x1b[39m";
 
-#define REPORT_MESSAGE(message)                                                \
+#define REPORT_ATTENDU(message)                                                \
   do {                                                                         \
-    strcpy(msg, "En fonction ");                                               \
+    strcpy(msg, "Comportement attendu en fonction ");                          \
     strcat(msg, __FILE_NAME__);                                                \
     strcat(msg, "/");                                                          \
     strcat(msg, __FUNCTION__);                                                 \
-    strcat(msg, ": ");                                                         \
+    strcat(msg, " est:\n");                                                      \
     strcat(msg, message);                                                      \
-    strcat(msg, ". Ce que est inattendu");                                     \
-  } while (0)
+    strcat(msg, ". Ce que n'a pas ete le cas");                                \
+  } while (0);
 
 #define REPORT_FILENAME strcpy(nom_teste, __FILE_NAME__);
 

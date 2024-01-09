@@ -8,7 +8,7 @@ bool test_valide(char *msg) {
 
   initialiser(d, "tests/test_dict.txt");
 
-  REPORT_MESSAGE("Les mot 'bonjour' et 'bonsoir' ont été trouvés");
+  REPORT_ATTENDU("Les mot 'bonjour' et 'bonsoir' ont été trouvés");
 
   return rechercher(d, "bonjour") && rechercher(d, "bonsoir");
 }
@@ -18,7 +18,7 @@ bool test_invalide(char *msg) {
 
   initialiser(d, "tests/test_dict.txt");
 
-  REPORT_MESSAGE("Le mot 'test' a été trouvé");
+  REPORT_ATTENDU("Le mot 'test' n'a pas été trouvé");
 
   return rechercher(d, "test");
 }
