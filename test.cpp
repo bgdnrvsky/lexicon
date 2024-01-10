@@ -174,13 +174,13 @@ void test_remplacer() {
   initialiser(mots);
 
   Carte t = nouvelle_carte('T'), e = nouvelle_carte('E'),
-        l = nouvelle_carte('L'), g = nouvelle_carte('G');
+        l = nouvelle_carte('L'), s = nouvelle_carte('S');
 
   ajouter_carte(j1.main, t);
   ajouter_carte(j1.main, e);
 
   ajouter_carte(j2.main, l);
-  ajouter_carte(j2.main, g);
+  ajouter_carte(j2.main, s);
 
   std::istringstream mot_orig("TE");
   poser(mot_orig, j1, mots, d);
@@ -206,6 +206,13 @@ void test_remplacer() {
   // Cas 4: le mot de remplacement est plus long que le mot d'origine
   std::istringstream mot_long("1 TES");
   ASSERT_EQ(remplacer(mot_long, j2, mots, d), COMMANDE_INVALIDE);
+  ASSERT_EQ(j2.main.restantes, 2);
+
+  // Cas 5: le mot de remplacement est le meme que le mot d'origine
+  ajouter_carte(j2.main, l);
+  std::istringstream meme_mot("1 LE");
+  ASSERT_EQ(remplacer(meme_mot, j2, mots, d), COMMANDE_INVALIDE);
+  ASSERT_EQ(j2.main.restantes, 3);
 
   detruire(j1.main);
   detruire(j2.main);
@@ -259,6 +266,17 @@ void test_completer() {
   std::istringstream mot_inexistant("1 SROI");
   ASSERT_EQ(completer(mot_inexistant, j2, mots, dico), MOT_INEXISTANT);
 
+  // Cas 4: le mot est le meme que le mot d'origine
+  ajouter_carte(j2.main, d);
+  ajouter_carte(j2.main, r);
+  ajouter_carte(j2.main, o);
+  ajouter_carte(j2.main, i);
+  ajouter_carte(j2.main, t);
+  ajouter_carte(j2.main, e);
+  std::istringstream meme_mot("1 DROITE");
+  ASSERT_EQ(completer(meme_mot, j2, mots, dico), COMMANDE_INVALIDE);
+  ASSERT_EQ(j2.main.restantes, 7);
+
   detruire(j1.main);
   detruire(j2.main);
   detruire(mots);
@@ -306,6 +324,7 @@ void test_piocher() {
   detruire(j.main);
   EXIT
 }
+
 int main(void) {
   std::cout << TEXTE_GRAS << "Lancement des tests" << TEXTE_RESET << std::endl;
 
