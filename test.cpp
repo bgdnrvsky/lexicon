@@ -321,6 +321,8 @@ void test_piocher() {
   std::istringstream carte_absente("V");
   ASSERT_EQ(piocher(carte_absente, paquet, j, exposees), COMMANDE_INVALIDE);
 
+  detruire(paquet);
+  detruire(exposees);
   detruire(j.main);
   EXIT
 }
