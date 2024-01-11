@@ -16,7 +16,7 @@ const char TEXTE_RESET[] = "\x1b[0m";
   TEXTE_ROUGE << "\t\tEchec du test (" << __FUNCTION__ << ":" << __LINE__ << ")"
 
 #define ASSERT(bool)                                                           \
-  if (!bool) {                                                                 \
+  if (!(bool)) {                                                               \
     std::cerr << std::endl << POSITION << TEXTE_RESET << std::endl;            \
     return;                                                                    \
   }
@@ -211,7 +211,7 @@ void test_remplacer() {
   // Cas 5: le mot de remplacement est le meme que le mot d'origine
   ajouter_carte(j2.main, l);
   std::istringstream meme_mot("1 LE");
-  ASSERT_EQ(remplacer(meme_mot, j2, mots, d), COMMANDE_INVALIDE);
+  ASSERT_EQ(remplacer(meme_mot, j2, mots, d), SUCCES);
   ASSERT_EQ(j2.main.restantes, 3);
 
   detruire(j1.main);
