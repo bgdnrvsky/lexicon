@@ -85,27 +85,17 @@ Status piocher(std::istringstream &is, Paquet &paquet, Joueur &joueur,
     return COMMANDE_INVALIDE;
 
   // Vérifier que la carte est dans la main du joueur
-  bool carte_trouvee = false;
-
-  for (debut(joueur.main.cartes); !estFin(joueur.main.cartes);
-       suivant(joueur.main.cartes)) {
-    if (lire(joueur.main.cartes).lettre == lettre) {
-      carte_trouvee = true;
-      break;
-    }
-  }
-
-  if (!carte_trouvee)
+  Carte carte_de_joueur;
+  if (!retrouver_carte_par_lettre(joueur.main, lettre, carte_de_joueur))
     return COMMANDE_INVALIDE;
 
   Carte carte_prise = sommet(paquet);
   depiler(paquet);
 
-  Carte carte_de_joueur = lire(joueur.main.cartes);
-  supprimer(joueur.main.cartes);
+  // supprimer(joueur.main.cartes);
+  ecrire(joueur.main.cartes, carte_prise);
 
   empiler(exposees, carte_de_joueur);
-  inserer(joueur.main.cartes, carte_prise);
   debut(joueur.main.cartes);
 
   return SUCCES;
